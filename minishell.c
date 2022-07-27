@@ -6,13 +6,13 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/07/22 16:35:57 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/07/27 17:48:02 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
@@ -22,12 +22,68 @@ int		ft_strlen(char *str)
 	return (i);
 }
 
+char	*ft_substr(char const *str, int start, int end)
+{
+	char	*sub;
+	int		i;
+
+	i = 0;
+	if (start > end)
+		return (NULL);
+	sub = malloc(end - start + 2);
+	while (start <= end)
+	{
+		sub[i] = str[start];
+		start++;
+		i++;
+	}
+	sub[i] = 0;
+	return (sub);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*ptr;
+	int		i;
+
+	i = 0;
+	if (!s1)
+		return (0);
+	while (s1[i])
+		i++;
+	ptr = malloc(i + 1);
+	if (!ptr)
+		return (0);
+	i = 0;
+	while (s1[i])
+	{
+		ptr[i] = s1[i];
+		i++;
+	}
+	ptr[i] = 0;
+	return (ptr);
+}
+
+int		is_alphn(char c)
+{
+	if ((c >= 'A' && c <= 'Z') 
+		|| (c >= 'a' && c <= 'z') 
+		|| (c >= '0' && c <= '9'))
+		return (1);
+	return (0);
+}
+
 void	print_matrix(char **matrix)
 {
 	int	y;
 
 	y = 0;
 	printf("here\n");
+	if (!matrix)
+	{
+		printf("ERROR: NO MATRIX\n");
+		exit(1);
+	}
 	while (matrix[y])
 	{
 		printf("matrix[%d] = %s\n", y, matrix[y]);
@@ -47,61 +103,102 @@ int	is_dif(char c, char *chars)
 	return (0);
 }
 
-void	treat_quotes(char *str, int *i, int id, t_tree **ptr)
+void	syntax_error(void)
+{
+	write(1, "Syntax Error\n", 13);
+	exit(1);
+}
+
+
+void	add_to(int id, char *str,	t_tree **tree)
+{
+	t_tree	*branch;
+
+	branch = malloc(sizeof(*branch));
+	branch->id = id;
+	branch->str = str;
+	branch->left = NULL;
+	branch->right = NULL;
+	branch->up = *tree;
+}
+
+void	add_to_tree(int id, char *str, t_parse prs)
+{
+	t_tree *ptr;
+
+	ptr = *(prs.ptr);
+
+	while (ptr->right)
+		ptr = ptr->right;
+	if (prs.pos == 0)
+		add_to(id, str, &ptr);
+	else
+		add_to(id, str, &ptr);
+}
+
+void	treat_dquotes(char *str, int i, int id, t_parse prs)
 {
 	int i2;
 
-	i2 = *i;
+	i2 = i;
 	while (str[i2] && str[i2] != '"')
 		i2++;
 	if (!str[i])
-		syntax_error(); //TO DO
-	add_to_tree(id, strdup(str, (*i) + 1, i2 - 1)); // TO DO
+		syntax_error();
+	add_to_tree(id, ft_substr(str, i + 1, i2 - 1), prs);
 }
 
-void	add_to_tree(int id, char *str, t_tree **ptr)
+int		add_case(char *str, int i, int id, t_parse prs)
 {
-	//TO DO
-	// if (first string)
-	// 	add_to((*ptr)->left)
-	// else
-	// 	add_to((*pre)->right)
-}
+	int i2;
 
-int		add_case(char *str, int *i, int id, t_tree **ptr)
-{
-	if (!str[*i])
-		syntax_error(); //TO DO
-		i2 = *i;
+	if (id == DOC || id == APD || id == FLG)
+		i += 2;
+	else
+		i++;
+	if (str[i] == '"')
+		treat_dquotes(str, i, id, prs);
+	if (!str[i])
+		syntax_error();
+	i2 = i;
 	while (str[i2] && str[i2] == ' ')
 		i2++;
 	if (!str[i2] || !is_dif(str[i2], "<>|&"))
-		syntax_error(); //TO DO
+		syntax_error();
 	while (str[i2] && is_dif(str[i2], "<>|& "))
 		i2++;
-	add_to_tree(id, strdup(str, (*i) + 1, i2 - 1), ptr); // TO DO
-	*i = i2 + 1;
+	add_to_tree(id, ft_substr(str, i, i2 - 1), prs); // TO DO
+	return (i2 + 1);
 }
 
-void	parse_string(char *str, t_tree **ptr)
+void	parse_string(char *str, t_parse prs)
 {
 	int	i;
-
+	int cmd;
+	
+	cmd = 0;
 	i = 0;
 	while (str[i])
 	{
 		while (str[i] && str[i] == ' ')
 			i++;
 		if (str[i] == '>' && str[i + 1] != '>')
-			add_case(str[i], &(i + 1), OUT, ptr);
+			i += add_case(str, i, OUT, prs);
 		else if (str[i] == '<' && str[i + 1] != '<')
-			add_case(str[i], &(i + 1), IN, ptr);
+			i += add_case(str, i, IN, prs);
 		else if (str[i] == '>' && str[i + 1] == '>' && str[i + 2] != '>')
-			add_case(str[i], &(i + 2), APD, ptr);
+			i += add_case(str, i, APD, prs);
 		else if (str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<')
-			add_case(str[i], &(i + 2), DOC, ptr);
+			i += add_case(str, i, DOC, prs);
+		else if (str[i] == '-' && str[i + 1] && is_dif(str[i + 1], "<>|&"))
+			i += add_case(str, i, FLG, prs);
+		else if (cmd != 0)
+			i += add_case(str, i, ARG, prs);
 		else
-			add_case(str[i], &(i + 2), CMD, ptr);
+			{
+				i += add_case(str, i, CMD, prs);
+				cmd++;
+			}
 	}
 }
 
@@ -127,25 +224,6 @@ void	tree_add_pipe(t_tree **tree)
 	pipe->left = ptr;
 }
 
-char	*ft_substr(char *str, int start, int end)
-{
-	char	*sub;
-	int		i;
-
-	i = 0;
-	if ((end - start) <= 0)
-		return (NULL);
-	sub = malloc(end - start + 1);
-	while (start <= end)
-	{
-		sub[i] = str[start];
-		start++;
-		i++;
-	}
-	sub[i] = 0;
-	return (sub);
-}
-
 char	**separate_pipes(char *str, t_pipe *pipes)
 {
 	int		i;
@@ -155,7 +233,10 @@ char	**separate_pipes(char *str, t_pipe *pipes)
 	i = 1;
 	ptr = pipes;
 	if (!pipes)
+	{
+		printf("ERROR: NO PIPES\n");
 		return (NULL);
+	}
 	while (ptr)
 	{
 		i++;
@@ -182,46 +263,6 @@ char	**separate_pipes(char *str, t_pipe *pipes)
 	return (matrix);
 }
 
-// void	check_redir_in(t_pipe *pipes, char *str)
-// {
-
-// 	while (i < pipes->pos)
-// 	{
-// 		if (str[i] == '<' && (!str[i + 1] || str[i + 1] != '<'))
-// 			i = input(str, i);
-// 		else if (str[i] == '<' && str[i + 1] == '<' && (!str[i + 2] || str[i + 2] != '<'))
-// 			i = heredoc(str, i);
-// 		i++;
-// 	}
-// }
-
-// void	is_command(int i, int i2)
-// {
-// }
-
-// void	check_command(char *str)
-// {
-// 	int i;
-// 	int i2;
-
-// 	int i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] != '>' && str[i] != '<' && str[i] != '|')
-// 		{
-// 			i2 = i;
-// 			while (str[i] && str[i] != '>' && str[i] != '<')
-// 				i++;
-// 			while (str[i2] && str[i2] != '>' && str[i2] != '<')
-// 				i2--;
-// 			if ((!str[i] || str[i] != '<') && (!str[i2] || str[i2] != '>'))
-// 				is_command(i, i2);
-// 		}
-// 		while (str[i] && str[i] == '<' && str[i] == '>')
-// 			i++;
-// 	}
-// }
-
 void	add_pos(int pos, int count, t_pipe **pipes)
 {
 	t_pipe *new;
@@ -242,11 +283,28 @@ void	add_pos(int pos, int count, t_pipe **pipes)
 	ptr->next = new;
 }
 
+void	parse_all_pipes(char **matrix, t_tree **tree)
+{
+	t_tree	*ptr;
+	t_parse	prs;
+
+	ptr = *tree;
+	prs.pos = 0;
+	while (matrix[prs.pos])
+	{
+		prs.ptr = &ptr;
+		parse_string(matrix[prs.pos], prs);
+		ptr = ptr->up;
+		prs.pos++;
+	}
+}
+
 void	parser(char *str, t_tree **tree)
 {
 	int		i;
 	int		count;
 	t_pipe	*pipes;
+	char	**matrix;
 
 	pipes = NULL;
 	i = 0;
@@ -265,43 +323,27 @@ void	parser(char *str, t_tree **tree)
 			i++;
 		i++;
 	}
-	print_matrix(separate_pipes(str, pipes));
+	matrix = separate_pipes(str, pipes);
+	print_matrix(matrix);
+	parse_all_pipes(matrix, tree);
+	// print_matrix(separate_pipes(str, pipes));
 }
 
-void	parse_all_pipes(char **matrix, t_tree **tree)
-{
-	int		y;
-	t_tree	*ptr;
-
-	ptr = *tree;
-	y = 0;
-	while (matrix[y])
-	{
-		parse_string(matrix[y], &ptr);
-		// parse_pipe(matrix[y], y, &ptr);
-		ptr = ptr->up;
-		y++;
-	}
-}
-
-parse_pipe(char *str, int y, t_tree **ptr)
-{
-}
 
 int main()
 {
 	t_tree *tree;
 
 	tree = NULL;
-	parser("texto|texto|textotexto|texto|textotexto|texto|textotexto|texto||texto", &tree);
+	parser("texto>a|texto|textotexto|texto|textotexto|texto|textotexto|texto||texto", &tree);
 
 	
-	// t_tree	*ptr;
-	// ptr = tree;
-	// while(ptr)
-	// {
-	// 	printf("%d\n", tree->id);
-	// 	ptr = ptr->up;
+	t_tree	*ptr;
+	ptr = tree;
+	while(ptr)
+	{
+		printf("%d\n", tree->id);
+		ptr = ptr->up;
 	// }
 	// while (1)
 	// 	printf("readline = %s\n", readline("prompt -> "));
