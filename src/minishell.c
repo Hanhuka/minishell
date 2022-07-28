@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/07/28 12:35:09 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/07/28 14:38:00 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ void	syntax_error(void)
 	exit(1);
 }
 
-
 void	add_to(int id, char *str,	t_tree **tree)
 {
 	t_tree	*branch;
@@ -136,16 +135,39 @@ void	add_to_tree(int id, char *str, t_parse prs)
 		add_to(id, str, &ptr);
 }
 
-void	treat_dquotes(char *str, int i, int id, t_parse prs)
+void	printf_tokens(char *str, int id, int i, int i2)
+{
+	printf("___add_to_tree__________\nstart = %d\nend = %d\n", i, i2 - 1);
+	if (id == CMD)
+		printf("CMD\n");
+	if (id == ARG)
+		printf("ARG\n");
+	if (id == FLG)
+		printf("FLG\n");
+	if (id == OUT)
+		printf("OUT\n");
+	if (id == IN)
+		printf("IN\n");
+	if (id == APD)
+		printf("APD\n");
+	if (id == DOC)
+		printf("DOC\n");
+	printf("Token = %s\n", ft_substr(str, i, i2 - 1));
+	printf("________________________\n");
+}
+
+int	treat_dquotes(char *str, int i, int id, t_parse prs)
 {
 	int i2;
 
-	i2 = i;
+	i2 = i + 1;
 	while (str[i2] && str[i2] != '"')
 		i2++;
 	if (!str[i])
 		syntax_error();
-	add_to_tree(id, ft_substr(str, i + 1, i2 - 1), prs);
+	printf_tokens(str, id, i, i2); // just for testing
+	add_to_tree(id, ft_substr(str, i, i2 - 1), prs);
+	return (i2 + 1);
 }
 
 int		add_case(char *str, int i, int id, t_parse prs)
@@ -157,7 +179,7 @@ int		add_case(char *str, int i, int id, t_parse prs)
 	else
 		i++;
 	if (str[i] == '"')
-		treat_dquotes(str, i, id, prs);
+		return (treat_dquotes(str, i + 1, id, prs));
 	if (!str[i])
 	{
 		printf("add case\n");
@@ -174,21 +196,7 @@ int		add_case(char *str, int i, int id, t_parse prs)
 	}
 	while (str[i2] && is_dif(str[i2], "<>|& "))
 		i2++;
-	printf("___add_to_tree__________\nstart = %d\nend = %d\n", i, i2 - 1);
-	if (id == CMD)
-		printf("CMD\n");
-	if (id == ARG)
-		printf("ARG\n");
-	if (id == FLG)
-		printf("FLG\n");
-	if (id == OUT)
-		printf("OUT\n");
-	if (id == IN)
-		printf("IN\n");
-	if (id == APD)
-		printf("APD\n");
-	if (id == DOC)
-		printf("DOC\n");
+	printf_tokens(str, id, i, i2); // just for testing
 	add_to_tree(id, ft_substr(str, i, i2 - 1), prs); // TO DO
 	if (id == ARG || id == CMD)
 	{
@@ -196,7 +204,6 @@ int		add_case(char *str, int i, int id, t_parse prs)
 		return (i2);
 	}
 	// printf("iterator = %d\n", i2 + 1);
-	printf("________________________\n");
 	return (i2 + 1);
 }
 
@@ -368,7 +375,8 @@ int main()
 	// 1 5
 	// 7 11
 	// 13 13
-	parser("<cenas texto>a cenas|>out texto argument <in|textotexto|texto|textotexto|texto|textotexto|texto||texto", &tree);
+	// dar fix a pipes dentro de quotes
+	parser("< cenas \"texto>>a\" cenas|>out texto argument <in|textotexto|texto|textotexto|texto|textotexto|texto||texto", &tree);
 
 	
 	t_tree	*ptr;
