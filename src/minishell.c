@@ -86,8 +86,6 @@ void	add_to_tree_n(int id, char *str, t_tree **tree)
 	Adds the token (except pipes, they have already been added to 
 		the tree) to the tree in its respective place
 */
-
-
 void	add_to_tree(int id, char *str, t_parse prs)
 {
 	t_tree *ptr;
@@ -101,15 +99,11 @@ void	add_to_tree(int id, char *str, t_parse prs)
 	// printf("CMD NBR = %d\n", prs.pos + 1);
 	// printf("pipe nbr = %d\n", (*(prs.ptr))->pipenbr);
 	if (prs.pos == 0)
-	{
 		while (ptr->left)
 			ptr = ptr->left;
-	}
 	else
-	{
 		while (ptr->right)
 			ptr = ptr->right;
-	}
 	if (prs.pos == 0)
 		add_to(id, str, &ptr, 0);
 	else
@@ -359,6 +353,16 @@ void	parse_all_pipes(char *str, char **matrix, t_tree **tree)
 	}
 }
 
+int	parser_handle_dquotes(char *str, int i)
+{
+	i++;
+	while (str[i] && str[i] != '"')
+		i++;
+	if (!str[i])
+		syntax_error();
+	return (i);
+}
+
 /*
 -Arguments:
 [str] = the input recieved by [read_line]
@@ -381,6 +385,8 @@ void	parser(char *str, t_tree **tree)
 	//create pipes in the binary tree
 	while (str[i])
 	{
+		if (str[i] && str[i] == '"')
+			i = parser_handle_dquotes(str, i);
 		if (str[i] && str[i] == '|' && str[i + 1] && str[i + 1] != '|')
 		{
 			tree_add_pipe(tree);
@@ -405,7 +411,6 @@ int main()
 
 	tree = NULL;
 
-	// dar fix a pipes dentro de quotes
 	while (1)
 	{
 		line = readline("shell> ");
@@ -421,7 +426,6 @@ int main()
 		}
 		parser(line, &tree);
 		add_history(line);
-		// parser("< cenas \"texto>>a\" cenas|>out texto argument <in|textotexto|texto|textotexto|texto|textotexto|texto|texto", &tree);
 		print_tree(tree);
 		free_tree(free_tree_utils(&tree));
 	}
