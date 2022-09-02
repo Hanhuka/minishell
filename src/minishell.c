@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/07/29 17:46:41 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/08/10 11:33:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	syntax_error(void)
+void	syntax_error(void)//TO DO
 {
 	write(1, "Syntax Error\n", 13);
 	exit(1);
@@ -178,7 +178,8 @@ int		add_case(char *str, int i, int id, t_parse prs)
 		add_to_tree(id, ft_substr(str, i, i2 - 1), prs);
 	if (id == ARG || id == CMD || id == FLG)
 		return (i2);
-	return (i2 + 1);
+	//return (i2 + 1);
+	return (i2);
 }
 
 /*
@@ -203,26 +204,26 @@ void	parse_string(char *str, t_parse prs)
 	printf("______str = %s________\n\n\n", str);
 	while (str[i])
 	{
-		// printf("str[i] = %c\n", str[i]);
+		printf("str[i] = %c len = %d\n", str[i], ft_strlen(str));
 		while (str[i] && str[i] == ' ')
 			i++;
 		if (str[i] && str[i] == '>' && str[i + 1] != '>')
 			i = add_case(str, i, OUT, prs);
-		else if (str[i] && str[i] == '<' && str[i + 1] != '<')
+		else if (str[i] && str[i] == '<' && str[i + 1] && str[i + 1] != '<')
 			i = add_case(str, i, IN, prs);
-		else if (str[i] && str[i] == '>' && str[i + 1] == '>' && str[i + 2] != '>')
+		else if (str[i] && str[i] == '>' && str[i + 1] && str[i + 1] == '>' && str[i + 2] != '>')
 			i = add_case(str, i, APD, prs);
-		else if (str[i] && str[i] == '<' && str[i + 1] == '<' && str[i + 2] != '<')
+		else if (str[i] && str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i + 2] != '<')
 			i = add_case(str, i, DOC, prs);
-		else if (str[i] && str[i] == '-' && str[i + 1] && is_dif(str[i + 1], "<>|&"))
+		else if (str[i] && str[i] == '-' && str[i + 1] && str[i + 1] && is_dif(str[i + 1], "<>|&"))
 			i = add_case(str, i, FLG, prs);
 		else if (str[i] && cmd != 0)
 			i = add_case(str, i - 1, ARG, prs);
 		else if (str[i])
-			{
-				i = add_case(str, i - 1, CMD, prs);
-				cmd++;
-			}
+		{
+			i = add_case(str, i - 1, CMD, prs);
+			cmd++;
+		}
 	}
 }
 
@@ -404,19 +405,22 @@ void	parser(char *str, t_tree **tree)
 }
 
 //Need to free the pipe matrix, the pipe linked list, 
-int main()
+//Still need to do the expander and treat single quotes
+int main(int ac, char **av, char **env)
 {
 	t_tree	*tree;
 	char	*line;
 
+	(void)ac;
+	(void)av;
+	(void)env;
 	tree = NULL;
-
 	while (1)
 	{
 		line = readline("shell> ");
 		if (!line)
 		{
-			printf("\nexit\n");
+			printf("\nexit\n");//ctrl + D
 			exit(0);
 		}
 		if (!ft_strlen(line))
@@ -425,7 +429,7 @@ int main()
 			continue;
 		}
 		parser(line, &tree);
-		add_history(line);
+		//Here goes the function that executes the tree already parsed
 		print_tree(tree);
 		free_tree(free_tree_utils(&tree));
 	}

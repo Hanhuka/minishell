@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/07/29 16:59:29 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/08/05 18:08:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <sys/syscall.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -58,6 +60,11 @@ int		ft_strlen(char *str);
 char	*ft_substr(char const *str, int start, int end);
 char	*ft_strdup(const char *s1);
 int		is_dif(char c, char *chars);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+//split_join.c
+char	**ft_split(char const *str, char c);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 //minishell.c
 void	syntax_error(void);

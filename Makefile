@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
+#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/07/29 17:39:42 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/08/05 18:09:06 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ SRCS_		=	\
 				minishell.c \
 				lib.c \
 				testing_prints.c \
-				errors_and_frees.c
+				errors_and_frees.c \
+				split_join.c \
+				path.c
 
 SRCS		=	$(addprefix $(_SRC), $(SRCS_))
 
