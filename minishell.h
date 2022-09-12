@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/08/05 18:08:57 by marvin           ###   ########.fr       */
+/*   Updated: 2022/09/02 17:25:40 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_parse
 }	t_parse;
 
 //lib.c
-int		ft_strlen(char *str);
+int		ft_strlen(const char *str);
 char	*ft_substr(char const *str, int start, int end);
 char	*ft_strdup(const char *s1);
 int		is_dif(char c, char *chars);
