@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/08/10 11:33:59 by marvin           ###   ########.fr       */
+/*   Updated: 2022/09/02 17:44:55 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ void	parse_string(char *str, t_parse prs)
 	printf("______str = %s________\n\n\n", str);
 	while (str[i])
 	{
-		printf("str[i] = %c len = %d\n", str[i], ft_strlen(str));
+		// printf("str[i] = %c len = %d\n", str[i], ft_strlen(str));
 		while (str[i] && str[i] == ' ')
 			i++;
 		if (str[i] && str[i] == '>' && str[i + 1] != '>')
@@ -384,6 +384,7 @@ void	parser(char *str, t_tree **tree)
 	i = 0;
 	count = 0;
 	//create pipes in the binary tree
+	//still need to handle single quotes 
 	while (str[i])
 	{
 		if (str[i] && str[i] == '"')
@@ -418,6 +419,7 @@ int main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = readline("shell> ");
+		add_history(line);
 		if (!line)
 		{
 			printf("\nexit\n");//ctrl + D

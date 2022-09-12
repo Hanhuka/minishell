@@ -26,41 +26,48 @@ char **get_path(char **env)
 	return (NULL);
 }
 
-//after the path i need to check every command if its possible to execute
-char *test_arg(char **path, t_tree *tree, int cmd)
-{
-	t_tree *ptr;
+// void	check_cmd(char *cmd, char **path)
+// {
+// 	int		i;
+// 	char	*tmp;
+// 	char	*cmd2
 
-	ptr = tree;
-	while (ptr)
-	{
-		if (ptr->id == IN && !open(ptr.str/*isto nao tem o path todo...*/)) //why the fuck nao aparece a func 
-			//No input (print Error)
-		else if (ptr->id == CMD)
-			check_cmd(ptr->str, path);
-		if (cmd == 1)
-			ptr = ptr->left;
-		else
-			ptr = ptr->right;
-	}
-}
+// 	cmd2 = ft_strjoin("/", cmd);
+// 	free(cmd);
+// 	i = 0;
+// 	while (path[i])
+// 	{
+// 		tmp = ft_strjoin(path[i], cmd2)
+// 		if (access(tmp, X_OK))
+// 			return ;
+// 		i++;
+// 		free(tmp);
+// 	}
+// 	//If it reaches here, the command does not exist
+// }
 
-void	check_cmd(char *cmd, char **path)
-{
-	int		i;
-	char	*tmp;
-	char	*cmd2
-
-	cmd2 = ft_strjoin("/", cmd);
-	free(cmd);
-	i = 0;
-	while (path[i])
-	{
-		tmp = ft_strjoin(path[i], cmd2)
-		if (access(tmp, X_OK))
-			return ;
-		i++;
-		free(tmp);
-	}
-	//If it reaches here, the command does not exist
-}
+// void	child_process(t_pipex *p, int i, char **env)
+// {
+// 	if (pipe(p->pipe) == -1)
+// 		ft_err(p, "Error");
+// 	p->pid = fork();
+// 	if (p->pid < 0)
+// 		ft_err(p, "Error");
+// 	if (!p->pid)
+// 	{
+// 		close(p->pipe[0]);
+// 		if (p->id == 0)
+// 			infile_norm(p);
+// 		else if (p->id == p->cmdnbr - 1)
+// 			dup2(p->outfile, STDOUT_FILENO);
+// 		else
+// 			dup2(p->pipe[1], STDOUT_FILENO);
+// 		child_work(p, i);
+// 		execve(p->cmdpath, p->cmd, env);
+// 		free_all(p);
+// 		exit(127);
+// 	}
+// 	close(p->pipe[1]);
+// 	dup2(p->pipe[0], STDIN_FILENO);
+// 	close(p->pipe[0]);
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_join.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 14:08:42 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/08/05 18:08:45 by marvin           ###   ########.fr       */
+/*   Updated: 2022/09/02 17:04:30 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		size2;
 
 	if (!s1 && s2)
-		return (cpyfrm2((char *) s2, 0, -1));
+		return (ft_strdup(s2));
 	if (s1 && !s2)
-		return (cpyfrm2((char *) s1, 0, -1));
+		return (ft_strdup(s1));
 	size1 = ft_strlen(s1);
 	size2 = ft_strlen(s2);
 	return (joiner(s1, s2, size1, size2));
