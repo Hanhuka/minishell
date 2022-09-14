@@ -6,12 +6,14 @@
 /*   By: pcoimbra <pcoimbra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 16:30:16 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/09/14 15:34:40 by pcoimbra         ###   ########.fr       */
+/*   Updated: 2022/09/14 16:00:58 by pcoimbra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 #include "../builtins.h"
+
+static void	param_err(char **args);
 
 int	ft_exit(char **args, int *stat, int fd)
 {
