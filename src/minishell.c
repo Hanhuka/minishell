@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/02 17:44:55 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/14 15:24:35 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	syntax_error(void)//TO DO
 	write(1, "Syntax Error\n", 13);
 	exit(1);
 }
+
+/*
+TO DO LIST:
+Overlord;
+jobless reincarnation.
+*/
 
 /*
 -Arguments:
@@ -129,8 +135,11 @@ int	treat_dquotes(char *str, int i, int id, t_parse prs)
 	i2 = i + 1;
 	while (str[i2] && str[i2] != '"')
 		i2++;
-	if (!str[i])
+	if (!str[i2])
 		syntax_error();
+	// i2++;
+	// while (str[i2] && str[i2] != ' ')
+	// 	i2++;
 	//print_tokens(str, id, i, i2); // just for testing
 	// add_to_tree(id, ft_substr(str, i, i2 - 1), prs);
 	if (!(*(prs.ptr)))
@@ -139,6 +148,70 @@ int	treat_dquotes(char *str, int i, int id, t_parse prs)
 		add_to_tree(id, ft_substr(str, i, i2 - 1), prs);
 	return (i2 + 1);
 }
+
+int is_diff_s(char *str, int i, char *test)
+{
+	int i2;
+
+	i2 = 0;
+	while (str[i] && test[i2] && (i < 1 || str[i - 1] != '\\')
+		&& str[i] != test[i2])
+		i2++;
+	if (!test[i2])
+		return (1);
+	return (0);
+}
+
+int	skip_quotes(char *str, int i)
+{
+	char q;
+
+	q = str[i];
+	while (str[i] && !is_diff_s(str, i, &q))
+		i++;
+	if (!str[i])
+		syntax_error();
+	return (i + 1);
+}
+
+int	parse_token(char *str, int i)
+{
+	printf("parse token\n");
+	if (!str[i])
+		syntax_error();
+	while (str[i] && str[i] == ' ')
+		i++;
+	while (str[i])
+	{
+		if (str[i] && (!is_diff_s(str, i, "\"") || !is_diff_s(str, i, "\"")))
+			i = skip_quotes(str, i + 1);
+		if (str[i] && str[i] == ' ')
+			return (i);
+		if (str[i] && !is_diff_s(str, i, " "))
+			return (i - 1);
+		if (str[i] && !is_diff_s(str, i, "<>|&"))
+			syntax_error();
+		i++;
+	}
+	return (i - 1);
+}
+
+int	add_case2(char *str, int i, int id, t_parse prs)
+{
+	int i2;
+
+	if (id == DOC || id == APD)
+		i++;
+	i++;
+	i2 = parse_token(str, i);
+	printf("parse token out\n");
+	if (!(*(prs.ptr)))
+		add_to_tree_n(id, ft_substr(str, i, i2), prs.ptr);
+	else
+		add_to_tree(id, ft_substr(str, i, i2), prs);
+	return (i2);
+}
+
 
 /*
 -Arguments:
@@ -222,6 +295,39 @@ void	parse_string(char *str, t_parse prs)
 		else if (str[i])
 		{
 			i = add_case(str, i - 1, CMD, prs);
+			cmd++;
+		}
+	}
+}
+
+void	parse_string2(char *str, t_parse prs)
+{
+	int	i;
+	int cmd;
+	
+	cmd = 0;
+	i = 0;
+	printf("______str = %s________\n\n\n", str);
+	while (str[i])
+	{
+		// printf("str[i] = %c len = %d\n", str[i], ft_strlen(str));
+		while (str[i] && str[i] == ' ')
+			i++;
+		if (str[i] && str[i] == '>' && str[i + 1] != '>')
+			i = add_case2(str, i, OUT, prs);
+		else if (str[i] && str[i] == '<' && str[i + 1] && str[i + 1] != '<')
+			i = add_case2(str, i, IN, prs);
+		else if (str[i] && str[i] == '>' && str[i + 1] && str[i + 1] == '>' && str[i + 2] != '>')
+			i = add_case2(str, i, APD, prs);
+		else if (str[i] && str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i + 2] != '<')
+			i = add_case2(str, i, DOC, prs);
+		else if (str[i] && str[i] == '-' && str[i + 1] && str[i + 1] && is_dif(str[i + 1], "<>|&"))
+			i = add_case2(str, i, FLG, prs);
+		else if (str[i] && cmd != 0)
+			i = add_case2(str, i - 1, ARG, prs);
+		else if (str[i])
+		{
+			i = add_case2(str, i - 1, CMD, prs);
 			cmd++;
 		}
 	}
@@ -342,7 +448,7 @@ void	parse_all_pipes(char *str, char **matrix, t_tree **tree)
 	prs.pos = 0;
 	prs.ptr = tree;
 	if (!matrix)
-		parse_string(str, prs);
+		parse_string2(str, prs);
 	else 
 	{
 		while (matrix[prs.pos])
@@ -397,7 +503,8 @@ void	parser(char *str, t_tree **tree)
 		}
 		while (str[i] && str[i] == '|')
 			i++;
-		i++;
+		if (str[i])
+			i++;
 	}
 	matrix = separate_pipes(str, pipes);
 	print_matrix(matrix);
