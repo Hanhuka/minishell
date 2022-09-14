@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pcoimbra <pcoimbra@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/12 14:57:27 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/09/14 16:03:50 by pcoimbra         ###   ########.fr       */
+/*   Created: 2022/09/14 16:01:15 by pcoimbra          #+#    #+#             */
+/*   Updated: 2022/09/14 16:03:38 by pcoimbra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "../../../minishell.h"
+#include "../builtins.h"
 
-# include "../../minishell.h"
+int	ft_pwd(int fd)
+{
+	char	pwd[1025];
 
-// builtins
-
-int	ft_echo(char **args, int fd);
-int	ft_exit(char **args, int *stat, int fd);
-int	ft_env(char ***env, int fd);
-int	ft_pwd(int fd);
-
-#endif
+	if (fd < 2)
+		return (1);
+	if (getcwd(pwd, 1025) == NULL)
+	{
+		ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
+		ft_putstr_fd(strerror(errno), STDERR_FILENO);
+		ft_putchar_fd('\n', STDERR_FILENO);
+		return (1);
+	}
+	ft_putstr_fd(pwd, fd);
+	ft_putchar_fd('\n', fd);
+	free(pwd);
+	close(fd);
+	return (1);
+}
