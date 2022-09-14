@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/14 15:24:35 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/14 18:16:53 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,8 @@ int is_diff_s(char *str, int i, char *test)
 	int i2;
 
 	i2 = 0;
-	while (str[i] && test[i2] && (i < 1 || str[i - 1] != '\\')
-		&& str[i] != test[i2])
+	while (str[i] && test[i2] && !((i < 1 || str[i - 1] != '\\')
+		&& str[i] == test[i2]))
 		i2++;
 	if (!test[i2])
 		return (1);
@@ -167,51 +167,19 @@ int	skip_quotes(char *str, int i)
 	char q;
 
 	q = str[i];
-	while (str[i] && !is_diff_s(str, i, &q))
-		i++;
-	if (!str[i])
-		syntax_error();
-	return (i + 1);
-}
-
-int	parse_token(char *str, int i)
-{
-	printf("parse token\n");
-	if (!str[i])
-		syntax_error();
-	while (str[i] && str[i] == ' ')
-		i++;
-	while (str[i])
+	i++;
+	while (str[i] && !((i < 1 || str[i - 1] != '\\') && str[i] == q))
 	{
-		if (str[i] && (!is_diff_s(str, i, "\"") || !is_diff_s(str, i, "\"")))
-			i = skip_quotes(str, i + 1);
-		if (str[i] && str[i] == ' ')
-			return (i);
-		if (str[i] && !is_diff_s(str, i, " "))
-			return (i - 1);
-		if (str[i] && !is_diff_s(str, i, "<>|&"))
-			syntax_error();
+		// printf("skip str[%d] = %c\n", i, str[i]);
 		i++;
 	}
-	return (i - 1);
+	if (!str[i])
+	{
+		printf("skip quotes syntax\n");
+		syntax_error();
+	}
+	return (i);
 }
-
-int	add_case2(char *str, int i, int id, t_parse prs)
-{
-	int i2;
-
-	if (id == DOC || id == APD)
-		i++;
-	i++;
-	i2 = parse_token(str, i);
-	printf("parse token out\n");
-	if (!(*(prs.ptr)))
-		add_to_tree_n(id, ft_substr(str, i, i2), prs.ptr);
-	else
-		add_to_tree(id, ft_substr(str, i, i2), prs);
-	return (i2);
-}
-
 
 /*
 -Arguments:
@@ -230,28 +198,26 @@ int		add_case(char *str, int i, int id, t_parse prs)
 	int i2;
 
 	if (id == DOC || id == APD)
-		i += 2;
-	else
 		i++;
-	if (str[i] == '"')
-		return (treat_dquotes(str, i + 1, id, prs));
+	i++;
 	if (!str[i])
 		syntax_error();
 	i2 = i;
 	while (str[i2] && str[i2] == ' ')
 		i2++;
-	if (!str[i2] || !is_dif(str[i2], "<>|&"))
+	if (!str[i2] || !is_diff_s(str, i2, "<>|&"))
 		syntax_error();
-	while (str[i2] && is_dif(str[i2], "<>|& "))
+	while (str[i2] && is_diff_s(str, i2, "<>|& "))
+	{
+		if (!is_diff_s(str, i2, "\"'"))
+			i2 = skip_quotes(str, i2);
 		i2++;
+	}
 	// print_tokens(str, id, i, i2); // just for testing
 	if (!(*(prs.ptr)))
 		add_to_tree_n(id, ft_substr(str, i, i2 - 1), prs.ptr);
 	else
 		add_to_tree(id, ft_substr(str, i, i2 - 1), prs);
-	if (id == ARG || id == CMD || id == FLG)
-		return (i2);
-	//return (i2 + 1);
 	return (i2);
 }
 
@@ -266,6 +232,8 @@ Arguments:
 	Finds the position of a new token and send it to the funtion
 	[add_case] to get the end of the token
 */
+
+// char *remove_quotes
 
 void	parse_string(char *str, t_parse prs)
 {
@@ -295,39 +263,6 @@ void	parse_string(char *str, t_parse prs)
 		else if (str[i])
 		{
 			i = add_case(str, i - 1, CMD, prs);
-			cmd++;
-		}
-	}
-}
-
-void	parse_string2(char *str, t_parse prs)
-{
-	int	i;
-	int cmd;
-	
-	cmd = 0;
-	i = 0;
-	printf("______str = %s________\n\n\n", str);
-	while (str[i])
-	{
-		// printf("str[i] = %c len = %d\n", str[i], ft_strlen(str));
-		while (str[i] && str[i] == ' ')
-			i++;
-		if (str[i] && str[i] == '>' && str[i + 1] != '>')
-			i = add_case2(str, i, OUT, prs);
-		else if (str[i] && str[i] == '<' && str[i + 1] && str[i + 1] != '<')
-			i = add_case2(str, i, IN, prs);
-		else if (str[i] && str[i] == '>' && str[i + 1] && str[i + 1] == '>' && str[i + 2] != '>')
-			i = add_case2(str, i, APD, prs);
-		else if (str[i] && str[i] == '<' && str[i + 1] && str[i + 1] == '<' && str[i + 2] != '<')
-			i = add_case2(str, i, DOC, prs);
-		else if (str[i] && str[i] == '-' && str[i + 1] && str[i + 1] && is_dif(str[i + 1], "<>|&"))
-			i = add_case2(str, i, FLG, prs);
-		else if (str[i] && cmd != 0)
-			i = add_case2(str, i - 1, ARG, prs);
-		else if (str[i])
-		{
-			i = add_case2(str, i - 1, CMD, prs);
 			cmd++;
 		}
 	}
@@ -448,7 +383,7 @@ void	parse_all_pipes(char *str, char **matrix, t_tree **tree)
 	prs.pos = 0;
 	prs.ptr = tree;
 	if (!matrix)
-		parse_string2(str, prs);
+		parse_string(str, prs);
 	else 
 	{
 		while (matrix[prs.pos])
@@ -460,6 +395,8 @@ void	parse_all_pipes(char *str, char **matrix, t_tree **tree)
 	}
 }
 
+
+
 int	parser_handle_dquotes(char *str, int i)
 {
 	i++;
@@ -469,6 +406,30 @@ int	parser_handle_dquotes(char *str, int i)
 		syntax_error();
 	return (i);
 }
+
+// char *get_variable(char *str, int i, char **env)
+// {
+// 	while (ft_strncmp(env[i], str + i,))
+// 	;
+// }
+
+// char *treat_dollar(char **matrix, char **env)
+// {
+// 	int y;
+
+// 	y = 0;
+// 	while (matrix[y])
+// 	{
+// 		while (matrix[y][x])
+// 		{
+// 			if (matrix[y][x] && !is_diff_s(matrix[y], x, "\"'"))
+// 				y = skip_quotes(matrix[y], x);
+// 			if (!is_diff_s(matrix[y], x. "$"))
+// 				get_variable(matrix[y], x, env)
+// 			x++;
+// 		}
+// 	}
+// }
 
 /*
 -Arguments:
@@ -493,8 +454,17 @@ void	parser(char *str, t_tree **tree)
 	//still need to handle single quotes 
 	while (str[i])
 	{
-		if (str[i] && str[i] == '"')
-			i = parser_handle_dquotes(str, i);
+		if (str[i] == '\\')
+		{
+			printf("slash\n");
+			i++;
+			if (!str[i])
+				syntax_error();
+			i++;
+		}
+		if (str[i] && !is_diff_s(str, i, "\"'"))
+			i = skip_quotes(str, i);
+		printf("str[%d] = %c\n", i, str[i]);
 		if (str[i] && str[i] == '|' && str[i + 1] && str[i + 1] != '|')
 		{
 			tree_add_pipe(tree);
@@ -506,6 +476,7 @@ void	parser(char *str, t_tree **tree)
 		if (str[i])
 			i++;
 	}
+	printf("out\n");
 	matrix = separate_pipes(str, pipes);
 	print_matrix(matrix);
 	parse_all_pipes(str, matrix, tree);
