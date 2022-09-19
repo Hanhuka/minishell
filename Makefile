@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/09/13 11:17:47 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/09/16 16:50:45 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,18 @@ INCLUDE		=	-I ./ -I ~/brew/opt/readline/include -lreadline
 
 SRCS_		=	\
 				minishell.c \
-				lib.c \
-				testing_prints.c \
+				env.c \
 				errors_and_frees.c \
+				lib.c \
+				parse_pipes.c \
+				parser_utils.c \
+				parser.c \
+				quotes.c \
 				split_join.c \
+				treat_dollar.c \
+				treat_dollar2.c \
+				tree_creation.c \
+				testing_prints.c \
 				path.c
 
 SRCS		=	$(addprefix $(_SRC), $(SRCS_))
