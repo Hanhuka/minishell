@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 15:48:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/14 15:18:19 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/16 15:34:26 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_strlen(const char *str)
 {
 	int	i;
 
+	if (!str)
+		return (-1);
 	i = 0;
 	while (str[i])
 		i++;
@@ -66,7 +68,7 @@ char	*ft_strdup(const char *s1)
 
 int	is_dif(char c, char *chars)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (chars[i] && chars[i] != c)

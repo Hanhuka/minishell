@@ -12,9 +12,9 @@
 
 #include "../minishell.h"
 
-char **get_path(char **env)
+char	**get_path(char **env)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env[i])

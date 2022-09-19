@@ -6,28 +6,28 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 15:36:20 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/07/29 17:47:07 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/16 16:58:50 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	print_matrix(char **matrix)
-{
-	int	y;
+// void	print_matrix(char **matrix)
+// {
+// 	int	y;
 
-	y = 0;
-	if (!matrix)
-	{
-		// printf("NO MATRIX\n");
-		return ;
-	}
-	while (matrix[y])
-	{
-		printf("matrix[%d] = %s\n", y, matrix[y]);
-		y++;
-	}
-}
+// 	y = 0;
+// 	if (!matrix)
+// 	{
+// 		// printf("NO MATRIX\n");
+// 		return ;
+// 	}
+// 	while (matrix[y])
+// 	{
+// 		printf("matrix[%d] = %s\n", y, matrix[y]);
+// 		y++;
+// 	}
+// }
 
 void	print_tokens(char *str, int id, int i, int i2)
 {
@@ -81,7 +81,6 @@ void	print_tree(t_tree *tree)
 			printf("DOC\n");
 		ptr = ptr->left;
 	}
-	// printf("____________________________________\n\n");
 	printf("\n\n\n");
 	while (tree)
 	{
@@ -110,7 +109,6 @@ void	print_tree(t_tree *tree)
 				printf("DOC\n");
 			ptr = ptr->right;
 		}
-		// printf("____________________________________\n\n");
 		printf("\n\n\n");
 		tree = tree->up;
 		count++;
