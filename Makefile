@@ -6,11 +6,11 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/09/16 16:50:45 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/09/22 17:05:29 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			=	gcc
+CC			=	clang
 CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g
 RM			=	rm -f
 
@@ -22,24 +22,35 @@ SRCS_		=	\
 				minishell.c \
 				env.c \
 				errors_and_frees.c \
-				lib.c \
-				parse_pipes.c \
-				parser_utils.c \
-				parser.c \
-				quotes.c \
-				split_join.c \
-				treat_dollar.c \
-				treat_dollar2.c \
-				tree_creation.c \
+				\
+				executor/executor.c \
+				executor/executor_prep.c \
+				executor/executor_prep2.c \
+				\
+				libs/lib.c \
+				libs/lib2.c \
+				libs/split_join.c \
+				\
+				parser/parse_pipes.c \
+				parser/parser_utils.c \
+				parser/parser.c \
+				parser/quotes.c \
+				parser/treat_dollar.c \
+				parser/treat_dollar2.c \
+				parser/tree_creation.c \
+				\
 				testing_prints.c \
 				path.c
 
 SRCS		=	$(addprefix $(_SRC), $(SRCS_))
 
-_OBJ		=	./obj/
-_SRC		= 	./src/
-OBJS		=	$(patsubst $(_SRC)%.c, $(_OBJ)%.o, $(SRCS))
-
+_OBJ		=
+_SRC		=	./src/
+_EXEC		=	executor/
+_LIBS		=	libs/
+_PARSER		=	parser/
+# OBJS		=	$(patsubst $(_SRC)%.c, $(_OBJ)%.o, $(SRCS))
+OBJS		=	$(patsubst %.c, %.o, $(SRCS))
 all:		$(NAME)
 
 $(_OBJ)%.o: $(_SRC)%.c
@@ -56,7 +67,7 @@ $(_OBJ):
 	mkdir $@
 
 clean:
-	$(RM) -r $(_OBJ)
+	$(RM) -r $(OBJS)
 
 fclean:	clean
 	$(RM) $(NAME)

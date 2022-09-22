@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/19 10:20:22 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:51:38 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <fcntl.h>
 #include <sys/syscall.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/wait.h>
 
 #define PIPE 1
 #define CMD 2
@@ -30,6 +32,13 @@
 #define ARG 7
 #define FLG 8
 
+typedef struct s_exec
+{
+	int		p[2];
+	pid_t	pid;
+	int		count;
+	int		pos;
+}	t_exec;
 
 typedef struct s_pipe
 {
@@ -72,6 +81,9 @@ char	*ft_substr(char const *str, int start, int end);
 char	*ft_strdup(const char *s1);
 int		is_dif(char c, char *chars);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+//lib2.c
+int	ft_putstr_fd(char *str, int fd);
 
 //split_join.c
 char	**ft_split(char const *str, char c);
@@ -131,5 +143,28 @@ t_tree	**free_tree_utils(t_tree **tree);
 void	free_tree(t_tree **tree);
 void	syntax_error(void);
 void	free_pipes(t_pipe **pipes);
+
+//executor.c
+void	executor_1(t_tree *tree, t_exec *e);
+void	executor(t_tree *tree, t_exec *e, int *fd);
+void	execute_command(t_tree	*tree, int pos, int count);
+void	execute_tree(t_tree **tree);
+
+//executor_prep.c
+int		cmd_count(t_tree *tree);
+char	*find_command(t_tree	*tree, int pos);
+char	**get_path(char **env);
+
+
+//executor_prep2.c
+char	*not_absolute(char *cmd, char **path);
+char	*absolute(char *cmd);
+char	*cmd_path(char *cmd);
+int		nbr_args(t_tree	*tree, int pos);
+char	**get_args(t_tree *tree, int pos);
+
+
+
+
 
 #endif
