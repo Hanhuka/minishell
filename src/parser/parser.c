@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:07:26 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:07:07 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:56:56 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static void	parser_utils(char *str, int *i)
 			syntax_error();
 		(*i)++;
 	}
+	if (*synt())
+		return ;
 	if (str[*i] && !is_diff_s(str, *i, "\"'"))
 		*i = skip_quotes(str, *i);
 }
@@ -45,16 +47,15 @@ void	parser(char *str, t_tree **tree, int i, int count)
 	while (str[i])
 	{
 		parser_utils(str, &i);
+		if (*synt())
+			return (free(str));
 		if (str[i] && str[i] == '|' && str[i + 1] && str[i + 1] != '|')
 		{
 			tree_add_pipe(tree);
 			add_pos(i, count, &pipes);
 			count++;
 		}
-		while (str[i] && str[i] == '|')
-			i++;
-		if (str[i])
-			i++;
+		parser_utils2(str, &i);
 	}
 	matrix = separate_pipes(str, pipes);
 	parse_all_pipes(str, matrix, tree);
@@ -131,6 +132,8 @@ void	parse_string(char *str, t_parse prs)
 	i = 0;
 	while (str[i])
 	{
+		if (*synt())
+			return ;
 		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
 			i++;
 		if (parse_string_utils(str, prs, &i))

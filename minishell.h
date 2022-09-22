@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 15:51:38 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:27:53 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	parse_string(char *str, t_parse prs);
 
 //parser_utils.c
 void	check_pipes(char *str);
+void	parser_utils2(char *str, int *i);
 
 //tree_creation.c
 void	add_to(int id, char *str, t_tree **tree, int side);
@@ -132,6 +133,10 @@ int		skip_quotes(char *str, int i);
 int		count_quotes(char *str);
 char	*remove_quotes(char *str);
 
+//backslash.c
+int		nbr_backslash(char *str);
+char	*rm_backslash(char *str, int i, int i2, char qt);
+
 //testing_prints.c
 void	print_matrix(char **matrix);
 void	print_tokens(char *str, int id, int i, int i2);
@@ -143,6 +148,9 @@ t_tree	**free_tree_utils(t_tree **tree);
 void	free_tree(t_tree **tree);
 void	syntax_error(void);
 void	free_pipes(t_pipe **pipes);
+
+//erros_and_frees2.c
+int *synt(void);
 
 //executor.c
 void	executor_1(t_tree *tree, t_exec *e);

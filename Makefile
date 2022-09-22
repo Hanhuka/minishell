@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/09/22 17:05:29 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/09/22 18:10:01 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS_		=	\
 				minishell.c \
 				env.c \
 				errors_and_frees.c \
+				errors_and_frees2.c \
 				\
 				executor/executor.c \
 				executor/executor_prep.c \
@@ -38,6 +39,7 @@ SRCS_		=	\
 				parser/treat_dollar.c \
 				parser/treat_dollar2.c \
 				parser/tree_creation.c \
+				parser/backslash.c \
 				\
 				testing_prints.c \
 				path.c

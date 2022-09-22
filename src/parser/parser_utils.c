@@ -6,11 +6,19 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:46:02 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:07:04 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:55:17 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	parser_utils2(char *str, int *i)
+{
+	while (str[*i] && str[*i] == '|')
+		(*i)++;
+	if (str[*i])
+		(*i)++;
+}
 
 void	check_pipes(char *str)
 {
@@ -35,5 +43,7 @@ void	check_pipes(char *str)
 		}
 		else
 			i++;
+		if (*synt())
+			return ;
 	}
 }

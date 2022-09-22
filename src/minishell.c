@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 15:51:19 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:47:30 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	main(int ac, char **av, char **env)
 
 	(void)ac;
 	(void)av;
+	*synt() = 0;
 	tree = NULL;
 	(*envi()) = get_env(env);
 	while (1)
@@ -36,7 +37,9 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		}
 		parser(line, &tree, 0, 0);
-		execute_tree(&tree);
+		if (!(*synt()))
+			execute_tree(&tree);
 		free_tree(free_tree_utils(&tree));
+		*synt() = 0;
 	}
 }

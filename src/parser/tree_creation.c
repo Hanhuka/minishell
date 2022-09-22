@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:55:02 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:42:16 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/22 17:49:43 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,8 @@ int	add_case(char *str, int i, int id, t_parse prs)
 			i2 = skip_quotes(str, i2);
 		i2++;
 	}
+	if (*synt())
+		return (0);
 	if (!(*(prs.ptr)))
 		add_to_tree_n(id, remove_quotes(ft_substr(str, i, i2 - 1)), prs.ptr);
 	else

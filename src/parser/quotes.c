@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:36:05 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:07:14 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:34:43 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,10 @@ char	*remove_quotes_util(char *str, int i, int i2, char qt)
 char	*remove_quotes(char *str)
 {
 	char	*newstr;
+	char	*newstr2;
 
 	newstr = remove_quotes_util(str, 0, 0, 'a');
 	free(str);
-	return (newstr);
+	newstr2 = rm_backslash(newstr, 0, 0, 'a');
+	return (newstr2);
 }
