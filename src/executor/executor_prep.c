@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:26:20 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:06:39 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:35:15 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ char	*find_command(t_tree	*tree, int pos)
 	else
 		while (tree && tree->id != CMD)
 			tree = tree->right;
-	return (tree->str);
+	if (tree)
+		return (tree->str);
+	else
+		return (NULL);
 }
 
 char	**get_path(char **env)

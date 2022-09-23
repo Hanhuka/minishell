@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/09/22 18:10:01 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/09/23 15:21:23 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ SRCS_		=	\
 				env.c \
 				errors_and_frees.c \
 				errors_and_frees2.c \
+				testing_prints.c \
+				path.c \
 				\
 				executor/executor.c \
 				executor/executor_prep.c \
@@ -41,8 +43,8 @@ SRCS_		=	\
 				parser/tree_creation.c \
 				parser/backslash.c \
 				\
-				testing_prints.c \
-				path.c
+				redirections/redirections.c \
+				redirections/heredoc.c
 
 SRCS		=	$(addprefix $(_SRC), $(SRCS_))
 

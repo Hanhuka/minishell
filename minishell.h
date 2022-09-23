@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 18:27:53 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/23 16:05:27 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_exec
 	int		p[2];
 	pid_t	pid;
 	int		count;
+	int		in;
+	int		out;
 	int		pos;
 }	t_exec;
 
@@ -153,7 +155,6 @@ void	free_pipes(t_pipe **pipes);
 int *synt(void);
 
 //executor.c
-void	executor_1(t_tree *tree, t_exec *e);
 void	executor(t_tree *tree, t_exec *e, int *fd);
 void	execute_command(t_tree	*tree, int pos, int count);
 void	execute_tree(t_tree **tree);
@@ -171,8 +172,16 @@ char	*cmd_path(char *cmd);
 int		nbr_args(t_tree	*tree, int pos);
 char	**get_args(t_tree *tree, int pos);
 
+//redirections.c
+int		count_redirect(t_tree *tree, t_exec *e, int id);
+void	in_error(char *str);
+void	open_in(t_tree *tree, t_exec *e);
+void	open_out(t_tree *tree, t_exec *e);
+void	redirections(t_tree *tree, t_exec *e, int *fd);
 
-
-
+//heredoc.c
+void	no_heredoc_utils(t_tree *tree, t_exec *e, int i);
+void	heredoc_filler(int fd, char *eof);
+void	ft_heredoc(t_tree *tree, t_exec *e, int i);
 
 #endif

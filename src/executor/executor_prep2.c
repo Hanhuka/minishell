@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:29:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:06:42 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/23 12:36:08 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*absolute(char *cmd)
 
 char	*cmd_path(char *cmd)
 {
+	if (!cmd)
+		return (NULL);
 	if (cmd[0] == '/')
 		return (absolute(cmd));
 	else

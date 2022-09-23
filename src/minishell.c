@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 17:47:30 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/23 17:09:51 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		line = readline("shell> ");
-		add_history(line);
+		if (line && ft_strlen(line))
+			add_history(line);
 		if (!line)
 		{
 			printf("\nexit\n");

@@ -6,11 +6,22 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:55:02 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 17:49:43 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/23 15:33:06 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	add_case_util(char *str, int *i, int *i2)
+{
+	while (str[*i] && (str[*i] == ' ' || str[*i] == '\t'))
+		(*i)++;
+	if (!str[*i])
+		syntax_error();
+	*i2 = *i;
+	while (str[*i2] && (str[*i2] == ' ' || str[*i2] == '\t'))
+		(*i2)++;
+}
 
 /*
 -Arguments:
@@ -121,11 +132,7 @@ int	add_case(char *str, int i, int id, t_parse prs)
 	if (id == DOC || id == APD)
 		i++;
 	i++;
-	if (!str[i])
-		syntax_error();
-	i2 = i;
-	while (str[i2] && (str[i2] == ' ' || str[i2] == '\t'))
-		i2++;
+	add_case_util(str, &i, &i2);
 	if (!str[i2] || !is_diff_s(str, i2, "<>|&"))
 		syntax_error();
 	while (str[i2] && is_diff_s(str, i2, "<>|& \t"))
