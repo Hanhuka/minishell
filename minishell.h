@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 15:56:24 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:11:39 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 #define ARG 7
 #define FLG 8
 
+extern int g_status;
+
 typedef struct s_exec
 {
 	int		p[2];
@@ -41,6 +43,7 @@ typedef struct s_exec
 	int		in;
 	int		out;
 	int		pos;
+	int		doc;
 	char	***env;
 }	t_exec;
 
@@ -133,6 +136,9 @@ char		*get_var(char *str, int *i, char **env);
 char		**treat_dollar(char **matrix, char **env);
 char		*treat_dollar2(char *str, char **env);
 
+//treat_dollar3.c
+void	get_status_utils(char *str, int i, char *val, char **newstr);
+
 //quotes.c
 int			is_diff_s(char *str, int i, char *test);
 int			skip_quotes(char *str, int i);
@@ -160,7 +166,7 @@ int 	*synt(void);
 
 //executor.c
 void		executor(t_tree *tree, t_exec *e, int *fd);
-void		execute_command(t_tree	*tree, int pos, int count, char ***env);
+t_exec		execute_command(t_tree	*tree, int pos, int count, char ***env);
 void		execute_tree(t_tree **tree, char ***env);
 
 //executor_prep.c

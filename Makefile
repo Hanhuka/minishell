@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/09/26 12:20:43 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/09/26 17:59:15 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ SRCS_		=	\
 				parser/quotes.c \
 				parser/treat_dollar.c \
 				parser/treat_dollar2.c \
+				parser/treat_dollar3.c \
 				parser/tree_creation.c \
 				parser/backslash.c \
 				\
