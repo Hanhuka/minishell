@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 10:45:10 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/23 16:32:21 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 11:55:42 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,6 @@ void	redirections(t_tree *tree, t_exec *e, int *fd)
 		if (e->pos == e->count - 1)
 			close((e->p)[1]);
 		else
-			dup2(*fd, STDIN_FILENO);
+			dup2((e->p)[1], STDOUT_FILENO);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:29:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/23 12:36:08 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 12:47:35 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ char	*absolute(char *cmd)
 	return (cmd);
 }
 
-char	*cmd_path(char *cmd)
+char	*cmd_path(char *cmd, char **env)
 {
 	if (!cmd)
 		return (NULL);
 	if (cmd[0] == '/')
 		return (absolute(cmd));
 	else
-		return (not_absolute(cmd, get_path(*envi())));
+		return (not_absolute(cmd, get_path(env)));
 }
 
 int	nbr_args(t_tree	*tree, int pos)

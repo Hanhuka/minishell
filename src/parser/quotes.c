@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:36:05 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 18:34:43 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:56:57 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	is_diff_s(char *str, int i, char *test)
 	int	i2;
 
 	i2 = 0;
-	while (str[i] && test[i2] && !((i < 1 || str[i - 1] != '\\')
-			&& str[i] == test[i2]))
+	while (str[i] && test[i2] && str[i] != test[i2])
 		i2++;
 	if (!test[i2])
 		return (1);
@@ -31,11 +30,11 @@ int	skip_quotes(char *str, int i)
 
 	q = str[i];
 	i++;
-	while (str[i] && !((i < 1 || str[i - 1] != '\\') && str[i] == q))
+	while (str[i] && str[i] != q)
 		i++;
 	if (!str[i])
 	{
-		printf("skip quotes syntax\n");
+		printf("Skip quotes syntax\n");
 		syntax_error();
 	}
 	return (i);
@@ -55,7 +54,7 @@ int	count_quotes(char *str)
 		{
 			qt = str[i];
 			i++;
-			while (str[i] && !((i < 1 || str[i - 1] != '\\') && str[i] == qt))
+			while (str[i] && str[i] == qt)
 				i++;
 			count += 2;
 		}
@@ -75,7 +74,7 @@ char	*remove_quotes_util(char *str, int i, int i2, char qt)
 		{
 			qt = str[i];
 			i++;
-			while (str[i] && !((i < 1 || str[i - 1] != '\\') && str[i] == qt))
+			while (str[i] && str[i] == qt)
 			{
 				newstr[i2] = str[i];
 				i2++;
@@ -96,10 +95,8 @@ char	*remove_quotes_util(char *str, int i, int i2, char qt)
 char	*remove_quotes(char *str)
 {
 	char	*newstr;
-	char	*newstr2;
 
 	newstr = remove_quotes_util(str, 0, 0, 'a');
 	free(str);
-	newstr2 = rm_backslash(newstr, 0, 0, 'a');
-	return (newstr2);
+	return (newstr);
 }

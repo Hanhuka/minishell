@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:29:49 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:42:12 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:48:17 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*treat_dollar2(char *str, char **env)
 		}
 		if (str[i] && !is_diff_s(str, i, "'") && !qt)
 			i = skip_quotes(str, i);
+		if (*synt())
+			return (NULL);
 		if (str[i] && !is_diff_s(str, i, "$"))
 			str = get_var(str, &i, env);
 		else

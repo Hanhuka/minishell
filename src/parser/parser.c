@@ -6,21 +6,14 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:07:26 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 17:56:56 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:02:20 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	parser_utils(char *str, int *i)
+void	parser_utils(char *str, int *i)
 {
-	if (str[*i] == '\\')
-	{
-		(*i)++;
-		if (!str[*i])
-			syntax_error();
-		(*i)++;
-	}
 	if (*synt())
 		return ;
 	if (str[*i] && !is_diff_s(str, *i, "\"'"))
@@ -36,31 +29,22 @@ static void	parser_utils(char *str, int *i)
 	Takes and calls the main parsing functions to create
 	the binary tree
 */
-void	parser(char *str, t_tree **tree, int i, int count)
+void	parser(char *str, t_tree **tree, int count, char **env)
 {
 	t_pipe	*pipes;
 	char	**matrix;
+	int		i;
 
+	i = 0;
 	pipes = NULL;
-	str = treat_dollar2(str, (*envi()));
+	str = treat_dollar2(str, env);
 	check_pipes(str);
-	while (str[i])
-	{
-		parser_utils(str, &i);
-		if (*synt())
-			return (free(str));
-		if (str[i] && str[i] == '|' && str[i + 1] && str[i + 1] != '|')
-		{
-			tree_add_pipe(tree);
-			add_pos(i, count, &pipes);
-			count++;
-		}
-		parser_utils2(str, &i);
-	}
+	if (!str)
+		return ;
+	parser_utils3(str, tree, count, &pipes);
 	matrix = separate_pipes(str, pipes);
 	parse_all_pipes(str, matrix, tree);
 	free_pipes(&pipes);
-	free(str);
 }
 
 /*

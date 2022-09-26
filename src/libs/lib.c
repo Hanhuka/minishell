@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 15:48:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:06:49 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:07:53 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,6 @@ char	*ft_strdup(const char *s1)
 	}
 	ptr[i] = 0;
 	return (ptr);
-}
-
-int	is_dif(char c, char *chars)
-{
-	int	i;
-
-	i = 0;
-	while (chars[i] && chars[i] != c)
-		i++;
-	if (!chars[i])
-		return (1);
-	return (0);
 }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
