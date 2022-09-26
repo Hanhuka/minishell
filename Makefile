@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/09/26 17:59:15 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/09/26 18:20:22 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ SRCS_		=	\
 				errors_and_frees2.c \
 				testing_prints.c \
 				path.c \
-				signal_handle.c \
 				\
 				executor/executor.c \
 				executor/executor_prep.c \
