@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:28:35 by pedro             #+#    #+#             */
-/*   Updated: 2022/09/22 17:09:31 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 12:28:29 by pedro            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,12 @@ static void	heredoc_sig(int sig)
 		write(STDOUT_FILENO, "> ", 2);
 		write(STDOUT_FILENO, "\n", 1);
 	}
+}
+
+static void	sig_hub(int sig, int heredoc)
+{
+	if (heredoc == 1)
+		heredoc_sig(sig);
+	else
+		def_signals(sig);
 }
