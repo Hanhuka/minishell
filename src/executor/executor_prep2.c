@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:29:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 12:47:35 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:27:47 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ char	*not_absolute(char *cmd, char **path)
 	ft_putstr_fd("shell: command not found: ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd("\n", 2);
+	g_status = 127;
 	exit(127);
 }
 
@@ -45,6 +46,7 @@ char	*absolute(char *cmd)
 		ft_putstr_fd("shell: command not found: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd("\n", 2);
+		g_status = 127;
 		exit(127);
 	}
 	return (cmd);

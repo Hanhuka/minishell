@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 16:45:28 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 18:37:19 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:13:59 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	free_tree(t_tree **tree)
 void	syntax_error(void)
 {
 	write(1, "Syntax Error\n", 13);
+	g_status = 1;
 	if (!(*synt()))
 		(*synt())++;
 }

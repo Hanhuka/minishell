@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:46:02 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 16:04:53 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:12:16 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,6 @@ void	check_pipes(char *str)
 		i++;
 	if (str[i] && !is_diff_s(str, i, "|"))
 		syntax_error();
-	// while (str[i])
-	// {
-	// 	if (str[i] && !is_diff_s(str, i, "\"'"))
-	// 		i = skip_quotes(str, i);
-	// 	if (str[i] && !is_diff_s(str, i, "|"))
-	// 	{
-	// 		i++;
-	// 		while (str[i] && (str[i] == ' ' || str[i] == '\t'))
-	// 			i++;
-	// 		if (str[i] && !is_diff_s(str, i, "|"))
-	// 			syntax_error();
-	// 	}
-	// 	else
-	// 		i++;
-	// }
 	check_pipes_utils(str, &i);
 	if (*synt())
 		return ;

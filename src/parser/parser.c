@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:07:26 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 16:02:20 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 16:17:53 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	parser(char *str, t_tree **tree, int count, char **env)
 	matrix = separate_pipes(str, pipes);
 	parse_all_pipes(str, matrix, tree);
 	free_pipes(&pipes);
+	free(str);
 }
 
 /*

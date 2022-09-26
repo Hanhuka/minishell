@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 14:48:44 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:11:29 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@ void	executor(t_tree *tree, t_exec *e, int *fd)
 	if (pipe(e->p) == -1)
 	{
 		ft_putstr_fd("Error: couldn't open pipe\n", 2);
+		g_status = 1;
 		exit(1);
 	}
 	e->pid = fork();
 	if (e->pid < 0)
 	{
 		ft_putstr_fd("Error: couldn't create a new process\n", 2);
+		g_status = 1;
 		exit(1);
 	}
 	if (!(e->pid))
@@ -44,7 +46,7 @@ void	executor(t_tree *tree, t_exec *e, int *fd)
 	}
 }
 
-void	execute_command(t_tree	*tree, int pos, int count, char ***env)
+t_exec	execute_command(t_tree	*tree, int pos, int count, char ***env)
 {
 	t_exec		e;
 	static int	fd;
@@ -55,27 +57,33 @@ void	execute_command(t_tree	*tree, int pos, int count, char ***env)
 	e.count = count;
 	e.pos = pos;
 	executor(tree, &e, &fd);
+	return (e);
 }
 
 void	execute_tree(t_tree **tree, char ***env)
 {
 	t_tree	*ptr;
 	int		i;
-	int		i2;
+	int		val2;
 	int		count;
+	t_exec	e;
 
 	i = 0;
-	i2 = -1;
 	count = cmd_count(*tree);
 	ptr = *tree;
 	while (ptr)
 	{
 		if (!(i == 1 && !(ptr->right)))
-			execute_command(ptr, i, count, env);
+			e = execute_command(ptr, i, count, env);
 		if (i)
 			ptr = ptr->up;
 		i++;
 	}
-	while (++i2 < count)
+	waitpid(e.pid, &val2, 0);
+	g_status = WEXITSTATUS(val2);
+	i = -1;
+	while (++i < count)
 		wait(NULL);
+	if (e.doc)
+		unlink(".heredoc_tmp");
 }

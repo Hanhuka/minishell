@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 10:45:10 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 11:55:42 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:09:06 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	open_in(t_tree *tree, t_exec *e)
 	int	i;
 
 	i = 0;
+	e->doc = 0;
 	while (tree)
 	{
 		if (tree->id == IN || tree->id == DOC)
@@ -52,7 +53,10 @@ void	open_in(t_tree *tree, t_exec *e)
 			if (tree->id == IN)
 				no_heredoc_utils(tree, e, i);
 			else
+			{
 				ft_heredoc(tree, e, i);
+				e->doc = 1;
+			}
 		}
 		if (!(e->pos))
 			tree = tree->left;
