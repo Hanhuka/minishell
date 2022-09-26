@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:07:26 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 16:17:53 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 18:24:37 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	parser(char *str, t_tree **tree, int count, char **env)
 	if (!str)
 		return ;
 	parser_utils3(str, tree, count, &pipes);
+	if (*synt())
+		return ;
 	matrix = separate_pipes(str, pipes);
 	parse_all_pipes(str, matrix, tree);
 	free_pipes(&pipes);
