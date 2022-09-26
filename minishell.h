@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 15:07:48 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/26 15:56:24 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char		**separate_pipes(char *str, t_pipe *pipes);
 void		add_pos(int pos, int count, t_pipe **pipes);
 
 //parser.c
+void		parser_utils(char *str, int *i);
 void		parser(char *str, t_tree **tree, int count, char **env);
 void		parse_all_pipes(char *str, char **matrix, t_tree **tree);
 void		parse_string(char *str, t_parse prs);
@@ -109,6 +110,7 @@ void		parse_string(char *str, t_parse prs);
 //parser_utils.c
 void		check_pipes(char *str);
 void		parser_utils2(char *str, int *i);
+void		parser_utils3(char *str, t_tree **tree, int count, t_pipe **pipes);
 
 //tree_creation.c
 void		add_to(int id, char *str, t_tree **tree, int side);
