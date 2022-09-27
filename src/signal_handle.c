@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handle.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedro <pedro@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:28:35 by pedro             #+#    #+#             */
-/*   Updated: 2022/09/26 12:28:29 by pedro            ###   ########.fr       */
+/*   Updated: 2022/09/27 17:30:05 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
 /* Primeira funcao: default signals
     Correspondentemente a como o bash
@@ -25,7 +25,9 @@
 static void	def_signals(int sig)
 {
 	if (sig == SIGQUIT)
+	{
 		return ;
+	}
 	else if (sig == SIGINT)
 	{
 		rl_replace_line("", 0);
@@ -52,16 +54,29 @@ static void	heredoc_sig(int sig)
 		return ;
 	else if (sig == SIGINT)
 	{
-		close(STDIN_FILENO);
-		write(STDOUT_FILENO, "> ", 2);
-		write(STDOUT_FILENO, "\n", 1);
+		// signal(SIGINT, SIG_IGN);
+		exit(0);
+		// write(STDOUT_FILENO, "> ", 2);
+		// write(STDOUT_FILENO, "\n", 1);
 	}
 }
 
-static void	sig_hub(int sig, int heredoc)
+// static void	sig_hub(int sig, int heredoc)
+// {
+// 	if (heredoc == 1)
+// 		heredoc_sig(sig);
+// 	else
+// 		def_signals(sig);
+// }
+
+void	sigcall(void)
 {
-	if (heredoc == 1)
-		heredoc_sig(sig);
-	else
-		def_signals(sig);
+	signal(SIGINT, def_signals);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void	here_sig(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, heredoc_sig);
 }

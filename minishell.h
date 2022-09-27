@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 18:19:08 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:25:32 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,7 @@ void		heredoc_filler(int fd, char *eof);
 void		ft_heredoc(t_tree *tree, t_exec *e, int i);
 
 //signal_handle.c
-// void		def_signals(int sig);
+void		sigcall(void);
+void		here_sig(void);
 
 #endif

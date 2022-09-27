@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:22:19 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/23 15:36:36 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/09/27 17:25:36 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	ft_heredoc(t_tree *tree, t_exec *e, int i)
 {
 	int		heredoc;
 
+	here_sig();
 	if (i == e->in)
 	{
 		heredoc = open(".heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
