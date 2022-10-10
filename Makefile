@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/09/27 16:13:15 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/10/07 20:14:17 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,14 @@ SRCS_		=	\
 				executor/executor.c \
 				executor/executor_prep.c \
 				executor/executor_prep2.c \
+				executor/run_builtins.c \
+				\
+				builtins/exit/exit.c \
+				builtins/env/env.c \
+				builtins/pwd/pwd.c \
+				builtins/echo/echo.c \
+				builtins/export/export.c \
+				builtins/export/export_utils.c \
 				\
 				libs/lib.c \
 				libs/lib2.c \
@@ -42,7 +50,9 @@ SRCS_		=	\
 				parser/treat_dollar.c \
 				parser/treat_dollar2.c \
 				parser/treat_dollar3.c \
+				parser/treat_tilde.c \
 				parser/tree_creation.c \
+				parser/tree_creation_utils.c \
 				parser/backslash.c \
 				\
 				redirections/redirections.c \
@@ -52,10 +62,7 @@ SRCS		=	$(addprefix $(_SRC), $(SRCS_))
 
 _OBJ		=
 _SRC		=	./src/
-_EXEC		=	executor/
-_LIBS		=	libs/
-_PARSER		=	parser/
-# OBJS		=	$(patsubst $(_SRC)%.c, $(_OBJ)%.o, $(SRCS))
+
 OBJS		=	$(patsubst %.c, %.o, $(SRCS))
 all:		$(NAME)
 

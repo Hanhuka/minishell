@@ -6,30 +6,36 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:28:35 by pedro             #+#    #+#             */
-/*   Updated: 2022/09/27 17:30:05 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 20:15:34 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/* Primeira funcao: default signals
-    Correspondentemente a como o bash
-    funciona, o Ctrl+\ (SIGQUIT)
-    nao faz nada. Therefor, apenas return
-    no fundo retirando o comando.
-
-    O outro e para o caso de estar a
-    haver input na shell. Ele vai ^C
-    e introduzir uma nova linha*/
-
-static void	def_signals(int sig)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	if (sig == SIGQUIT)
-	{
-		return ;
+	size_t	i;
+	char	*chr;
+
+	chr = b;
+	i = 0;
+	while (i < len)
+	{		
+		chr[i] = (char) c;
+		i++;
 	}
+	return (b);
+}
+
+static void	handle_signals(int sig, siginfo_t *info, void *ucontext)
+{
+	(void)info;
+	(void)ucontext;
+	if (sig == SIGQUIT)
+		return ;
 	else if (sig == SIGINT)
 	{
+		g_status = 130;
 		rl_replace_line("", 0);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
@@ -37,46 +43,54 @@ static void	def_signals(int sig)
 	}
 }
 
-/* Segunda funcao: Heredoc Signals
-	Correspondentemente a como o bash
-	funciona, o Ctrl+\ (SIGQUIT)
-	nao faz nada. Therefor, apenas return
-	no fundo retirando o comando.
-
-	O SIGINT e para dar display que o
-	bash exibe e fecha o heredoc, no
-	fundo intrerrompendo o funcionamento
-	antes de estar concluido*/
-
-static void	heredoc_sig(int sig)
+static void	handle_signals_heredoc(int sig, siginfo_t *info, void *ucontext)
 {
+	(void)info;
+	(void)ucontext;
 	if (sig == SIGQUIT)
 		return ;
 	else if (sig == SIGINT)
 	{
-		// signal(SIGINT, SIG_IGN);
-		exit(0);
-		// write(STDOUT_FILENO, "> ", 2);
-		// write(STDOUT_FILENO, "\n", 1);
+		ft_putstr_fd("\n", 1);
+		exit(130);
 	}
 }
 
-// static void	sig_hub(int sig, int heredoc)
-// {
-// 	if (heredoc == 1)
-// 		heredoc_sig(sig);
-// 	else
-// 		def_signals(sig);
-// }
-
-void	sigcall(void)
+void	prep_act(struct sigaction *act, char si_mode)
 {
-	signal(SIGINT, def_signals);
-	signal(SIGQUIT, SIG_IGN);
+	ft_memset(act, '\0', sizeof(*act));
+	act->sa_flags = SA_SIGINFO;
+	sigemptyset(&act->sa_mask);
+	if (si_mode == SI_IGN)
+		(act->sa_handler) = SIG_IGN;
+	else if (si_mode == SI_HDOC)
+		(act->sa_sigaction) = handle_signals_heredoc;
+	else if (si_mode == SI_RLINE)
+		(act->sa_sigaction) = handle_signals;
+	else if (si_mode == SI_DFL)
+		(act->sa_handler) = SIG_DFL;
+	else
+		return ;
 }
 
-void	here_sig(void)
+void	call_sigact(char act_choice)
 {
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, heredoc_sig);
+	struct sigaction	act;
+
+	prep_act(&act, act_choice);
+	if (sigaction(SIGQUIT, &act, NULL) == -1
+		|| sigaction(SIGINT, &act, NULL) == -1)
+	{
+		exit(1);
+	}
+}
+
+void	ignore_slashl(void)
+{
+	sigset_t	set;
+
+	sigemptyset(&set);
+	sigaddset(&set, SIGQUIT);
+
+	sigprocmask(SIG_BLOCK, &set, NULL);
 }

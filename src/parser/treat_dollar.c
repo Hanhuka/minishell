@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:28:26 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/22 16:07:26 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 20:08:22 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,12 @@ char	*search_var(char *var, char **env)
 	int	len;
 
 	i = 0;
-	while (env[i] && ft_strncmp(env[i], var, till_eq(env[i])))
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], var, till_eq(env[i])) && !var[till_eq(env[i])])
+			break ;
 		i++;
+	}
 	len = ft_strlen(var);
 	if (var)
 		free(var);

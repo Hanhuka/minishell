@@ -6,22 +6,11 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:55:02 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/23 15:33:06 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 20:06:22 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-void	add_case_util(char *str, int *i, int *i2)
-{
-	while (str[*i] && (str[*i] == ' ' || str[*i] == '\t'))
-		(*i)++;
-	if (!str[*i])
-		syntax_error();
-	*i2 = *i;
-	while (str[*i2] && (str[*i2] == ' ' || str[*i2] == '\t'))
-		(*i2)++;
-}
 
 /*
 -Arguments:
@@ -113,6 +102,18 @@ void	add_to_tree(int id, char *str, t_parse prs)
 		add_to(id, str, &ptr, 1);
 }
 
+void	check_export(char *str, int id, t_parse prs)
+{
+	int		i;
+	char	*test;
+
+	i = 0;
+	test = remove_quotes(str);
+	if (!ft_strncmp(test, "export", ft_strlen(test)) && id == CMD)
+		*(prs.exprt) = 1;
+	free(test);
+}
+
 /*
 -Arguments:
 [str] = one of the strings that have been separated by pipes
@@ -143,9 +144,7 @@ int	add_case(char *str, int i, int id, t_parse prs)
 	}
 	if (*synt())
 		return (0);
-	if (!(*(prs.ptr)))
-		add_to_tree_n(id, remove_quotes(ft_substr(str, i, i2 - 1)), prs.ptr);
-	else
-		add_to_tree(id, remove_quotes(ft_substr(str, i, i2 - 1)), prs);
+	check_export(ft_substr(str, i, i2 - 1), id, prs);
+	add_case_util2(id, ft_substr(str, i, i2 - 1), prs);
 	return (i2);
 }

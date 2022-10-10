@@ -6,11 +6,27 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:55:36 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 18:15:08 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 20:07:55 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	skip_heredoc(char *str, int i)
+{
+	i += 2;
+	while (str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	while (str[i] && is_diff_s(str, i, " \t|&-<>"))
+	{
+		if (str[i] && !is_diff_s(str, i, "\"'"))
+			i = skip_quotes(str, i);
+		if (*synt())
+			return (-1);
+		i++;
+	}
+	return (i);
+}
 
 void	get_status_utils(char *str, int i, char *val, char **newstr)
 {

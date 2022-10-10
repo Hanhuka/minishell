@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/14 16:01:15 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/10/07 12:05:19 by ralves-g         ###   ########.fr       */
+/*   Created: 2022/10/07 20:13:04 by ralves-g          #+#    #+#             */
+/*   Updated: 2022/10/07 20:13:19 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
-// #include "../builtins.h"
 
-int	ft_pwd(void)
+int	no_args(char **env)
 {
-	char	*pwd;
+	int	y;
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
+	y = 0;
+	while (env[y])
 	{
-		ft_putstr_fd("shell: pwd: ", STDERR_FILENO);
-		ft_putstr_fd("couldn't get working directory", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		return (1);
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(env[y], 1);
+		ft_putstr_fd("\n", 1);
+		y++;
 	}
-	ft_putstr_fd(pwd, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	free(pwd);
 	return (1);
 }

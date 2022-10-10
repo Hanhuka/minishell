@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/27 17:25:32 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 20:13:49 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@
 #include <unistd.h>
 #include <string.h>
 #include <signal.h>
+#include <termios.h>
 #include <fcntl.h>
 #include <sys/syscall.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/wait.h>
+
+#define SHELL "shell"
 
 #define PIPE 1
 #define CMD 2
@@ -32,6 +35,11 @@
 #define APD 6
 #define ARG 7
 #define FLG 8
+
+#define SI_IGN 1
+#define SI_HDOC 2
+#define SI_RLINE 3
+#define SI_DFL 4
 
 extern int g_status;
 
@@ -69,6 +77,8 @@ typedef struct s_parse
 {
 	t_tree	**ptr;
 	int		pos;
+	char	**env;
+	int		*exprt;
 }	t_parse;
 
 typedef struct s_addvar
@@ -87,11 +97,15 @@ int			ft_strlen(const char *str);
 char		*ft_substr(char const *str, int start, int end);
 char		*ft_strdup(const char *s1);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+char		*ft_strchr(const char *s, int c);
 
 //lib2.c
 int			ft_putstr_fd(char *str, int fd);
 long int	ft_atoi(const char *str);
 char		*ft_itoa(int n);
+
+//lib3.c
+void	*ft_memset(void *b, int c, size_t len);
 
 //split_join.c
 char		**ft_split(char const *str, char c);
@@ -107,10 +121,11 @@ void		add_pos(int pos, int count, t_pipe **pipes);
 //parser.c
 void		parser_utils(char *str, int *i);
 void		parser(char *str, t_tree **tree, int count, char **env);
-void		parse_all_pipes(char *str, char **matrix, t_tree **tree);
-void		parse_string(char *str, t_parse prs);
+void		parse_all_pipes(char *str, char **matrix, t_tree **tree, char **env);
+void		parse_string(char *str, t_parse prs, int exprt);
 
 //parser_utils.c
+void		parser_string_export(t_parse prs);
 void		check_pipes(char *str);
 void		parser_utils2(char *str, int *i);
 void		parser_utils3(char *str, t_tree **tree, int count, t_pipe **pipes);
@@ -120,6 +135,10 @@ void		add_to(int id, char *str, t_tree **tree, int side);
 void		add_to_tree_n(int id, char *str, t_tree **tree);
 void		add_to_tree(int id, char *str, t_parse prs);
 int			add_case(char *str, int i, int id, t_parse prs);
+
+//tree_creation_utils.c
+void		add_case_util(char *str, int *i, int *i2);
+void		add_case_util2(int id, char *str, t_parse prs);
 
 //env.c
 char		**get_env(char **env);
@@ -137,7 +156,11 @@ char		**treat_dollar(char **matrix, char **env);
 char		*treat_dollar2(char *str, char **env);
 
 //treat_dollar3.c
-void	get_status_utils(char *str, int i, char *val, char **newstr);
+int			skip_heredoc(char *str, int i);
+void		get_status_utils(char *str, int i, char *val, char **newstr);
+
+//treat_tilde.c
+char	*treat_tilde(char *str, char **env);
 
 //quotes.c
 int			is_diff_s(char *str, int i, char *test);
@@ -162,7 +185,7 @@ void		syntax_error(void);
 void		free_pipes(t_pipe **pipes);
 
 //erros_and_frees2.clong int	ft_atoi(const char *str)
-int 	*synt(void);
+int			*synt(void);
 
 //executor.c
 void		executor(t_tree *tree, t_exec *e, int *fd);
@@ -174,6 +197,27 @@ int			cmd_count(t_tree *tree);
 char		*find_command(t_tree	*tree, int pos);
 char		**get_path(char **env);
 
+//run_buitins.c
+int			check_builtin(t_tree *tree, char ***env, char *cmd);
+
+//exit.c
+int			ft_exit(char **args);
+int			matrix_size(char **matrix);
+
+//env.c
+int			ft_env(char **env);
+
+//pwd.c
+int			ft_pwd(void);
+
+//echo.c
+int			ft_echo(char **args);
+
+//export.c
+int			ft_export(char **args, char ***env);
+
+//export_utils.c
+int			no_args(char **env);
 
 //executor_prep2.c
 char		*not_absolute(char *cmd, char **path);
@@ -195,7 +239,6 @@ void		heredoc_filler(int fd, char *eof);
 void		ft_heredoc(t_tree *tree, t_exec *e, int i);
 
 //signal_handle.c
-void		sigcall(void);
-void		here_sig(void);
-
+void		call_sigact(char act_choice);
+void		ignore_slashl(void);
 #endif

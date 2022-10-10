@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:07:26 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 18:24:37 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 19:55:45 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	parser(char *str, t_tree **tree, int count, char **env)
 
 	i = 0;
 	pipes = NULL;
-	str = treat_dollar2(str, env);
+	str = treat_tilde(str, env);
 	check_pipes(str);
 	if (!str)
 		return ;
@@ -45,7 +45,7 @@ void	parser(char *str, t_tree **tree, int count, char **env)
 	if (*synt())
 		return ;
 	matrix = separate_pipes(str, pipes);
-	parse_all_pipes(str, matrix, tree);
+	parse_all_pipes(str, matrix, tree, env);
 	free_pipes(&pipes);
 	free(str);
 }
@@ -59,19 +59,20 @@ void	parser(char *str, t_tree **tree, int count, char **env)
 	Sends one of the strings of the matrix to the function
 	[parse_string] to be converted into tokens
 */
-void	parse_all_pipes(char *str, char **matrix, t_tree **tree)
+void	parse_all_pipes(char *str, char **matrix, t_tree **tree, char **env)
 {
 	t_parse	prs;
 
 	prs.pos = 0;
 	prs.ptr = tree;
+	prs.env = env;
 	if (!matrix)
-		parse_string(str, prs);
+		parse_string(str, prs, 0);
 	else
 	{
 		while (matrix[prs.pos])
 		{
-			parse_string(matrix[prs.pos], prs);
+			parse_string(matrix[prs.pos], prs, 0);
 			prs.pos++;
 		}
 	}
@@ -110,13 +111,14 @@ Arguments:
 	Finds the position of a new token and send it to the funtion
 	[add_case] to get the end of the token
 */
-void	parse_string(char *str, t_parse prs)
+void	parse_string(char *str, t_parse prs, int exprt)
 {
 	int	i;
 	int	cmd;
 
 	cmd = 0;
 	i = 0;
+	prs.exprt = &exprt;
 	while (str[i])
 	{
 		if (*synt())

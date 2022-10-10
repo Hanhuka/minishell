@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 18:11:29 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/05 18:57:14 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	child_process(t_tree *tree, t_exec *e, int *fd)
 {
 	redirections(tree, e, fd);
+	call_sigact(SI_DFL);
 	execve(cmd_path(find_command(tree, e->pos), *(e->env)),
 		get_args(tree, e->pos), *(e->env));
 	exit(127);
@@ -70,6 +71,8 @@ void	execute_tree(t_tree **tree, char ***env)
 
 	i = 0;
 	count = cmd_count(*tree);
+	if (count == 1 && check_builtin(*tree, env, find_command(*tree, 0)))
+		return ;
 	ptr = *tree;
 	while (ptr)
 	{
@@ -80,7 +83,14 @@ void	execute_tree(t_tree **tree, char ***env)
 		i++;
 	}
 	waitpid(e.pid, &val2, 0);
-	g_status = WEXITSTATUS(val2);
+	if (WIFSIGNALED(val2))
+	{
+		g_status = WTERMSIG(val2) + 128;
+		if (g_status == 130)
+			write(1, "\n", 1);
+	}
+	else
+		g_status = WEXITSTATUS(val2);
 	i = -1;
 	while (++i < count)
 		wait(NULL);

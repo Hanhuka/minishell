@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/29 15:48:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 15:07:53 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 11:47:55 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ int	ft_strlen(const char *str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)s + i);
+		i++;
+	}
+	if (c == 0)
+		return ((char *)s + i);
+	return (NULL);
 }
 
 char	*ft_substr(char const *str, int start, int end)

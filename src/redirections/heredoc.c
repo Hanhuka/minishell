@@ -6,11 +6,22 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:22:19 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/27 17:25:36 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 19:49:15 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	heredoc_filler_utils(char *str, char *eof)
+{
+	ft_putstr_fd("\nshell: warning: here-document delimited ", 1);
+	ft_putstr_fd("by end-of-file (wanted `", 1);
+	write(1, eof, ft_strlen(eof) - 1);
+	ft_putstr_fd("')\n", 1);
+	free(eof);
+	free(str);
+	exit(0);
+}
 
 void	no_heredoc_utils(t_tree *tree, t_exec *e, int i)
 {
@@ -32,19 +43,22 @@ void	heredoc_filler(int fd, char *eof)
 
 	while (1)
 	{
-		str = readline("heredoc> ");
+		call_sigact(SI_HDOC);
+		str = readline("\e[1;95mheredoc> \e[0m");
+		if (!str)
+			heredoc_filler_utils(str, eof);
 		line = ft_strjoin(str, "\n");
 		free(str);
 		if (line)
 		{
+			if (!ft_strlen(line))
+				break ;
 			if (!ft_strncmp(line, eof, ft_strlen(eof)))
 				break ;
 			if (fd > 0)
 				write(fd, line, ft_strlen(line));
 			free(line);
 		}
-		else
-			break ;
 	}
 	free(eof);
 	if (line)
@@ -55,7 +69,6 @@ void	ft_heredoc(t_tree *tree, t_exec *e, int i)
 {
 	int		heredoc;
 
-	here_sig();
 	if (i == e->in)
 	{
 		heredoc = open(".heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);

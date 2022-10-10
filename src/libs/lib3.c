@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   lib3.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/14 16:01:15 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/10/07 12:05:19 by ralves-g         ###   ########.fr       */
+/*   Created: 2022/10/07 19:39:49 by ralves-g          #+#    #+#             */
+/*   Updated: 2022/10/07 20:08:31 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../minishell.h"
-// #include "../builtins.h"
+#include "../../minishell.h"
 
-int	ft_pwd(void)
+void	*ft_memset(void *b, int c, size_t len)
 {
-	char	*pwd;
+	size_t	i;
+	char	*chr;
 
-	pwd = getcwd(NULL, 0);
-	if (!pwd)
-	{
-		ft_putstr_fd("shell: pwd: ", STDERR_FILENO);
-		ft_putstr_fd("couldn't get working directory", STDERR_FILENO);
-		ft_putstr_fd("\n", STDERR_FILENO);
-		return (1);
+	chr = b;
+	i = 0;
+	while (i < len)
+	{		
+		chr[i] = (char) c;
+		i++;
 	}
-	ft_putstr_fd(pwd, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	free(pwd);
-	return (1);
+	return (b);
 }

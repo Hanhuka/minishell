@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:36:05 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 15:56:57 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/07 19:49:32 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	count_quotes(char *str)
 		{
 			qt = str[i];
 			i++;
-			while (str[i] && str[i] == qt)
+			while (str[i] && str[i] != qt)
 				i++;
 			count += 2;
 		}
@@ -74,7 +74,7 @@ char	*remove_quotes_util(char *str, int i, int i2, char qt)
 		{
 			qt = str[i];
 			i++;
-			while (str[i] && str[i] == qt)
+			while (str[i] && str[i] != qt)
 			{
 				newstr[i2] = str[i];
 				i2++;
