@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/05 18:57:14 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/11 17:15:18 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	child_process(t_tree *tree, t_exec *e, int *fd)
 {
 	redirections(tree, e, fd);
 	call_sigact(SI_DFL);
+	//Add builtins
 	execve(cmd_path(find_command(tree, e->pos), *(e->env)),
 		get_args(tree, e->pos), *(e->env));
 	exit(127);

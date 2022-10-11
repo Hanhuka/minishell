@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 12:03:55 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/11 16:06:54 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/11 17:16:30 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	check_builtin(t_tree *tree, char ***env, char *cmd)
 {
+	//add redirections
 	if (cmd && !ft_strncmp(cmd, "exit", ft_strlen("exit") + 1))
 		return (ft_exit(get_args(tree, 0)));
 	if (cmd && !ft_strncmp(cmd, "env", ft_strlen("env") + 1))

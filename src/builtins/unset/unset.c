@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 14:16:28 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/11 16:34:50 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/11 17:24:14 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,29 @@ int	is_unsetable(char *str)
 	return (1);
 }
 
+void	unset_args_utils(char ***env, char ***new_env, char *str)
+{
+	int	i;
+	int	i2;
+
+	i = 0;
+	i2 = 0;
+	while ((*env)[i])
+	{
+		if (ft_strncmp((*env)[i], str, till_eq((*env)[i])))
+		{
+			(*new_env)[i2] = ft_strdup((*env)[i]);
+			i2++;
+		}
+		i++;
+	}
+	(*new_env)[i2] = NULL;
+}
+
 void	unset_args(char *str, char ***env)
 {
 	char	**new_env;
 	int		i;
-	int		i2;
 
 	i = 0;
 	if (!is_unsetable(str))
@@ -54,18 +72,7 @@ void	unset_args(char *str, char ***env)
 			|| ((*env)[i][ft_strlen(str)]) == '='))
 		{
 			new_env = malloc(sizeof(char *) * matrix_size(*env));
-			i = 0;
-			i2 = 0;
-			while ((*env)[i])
-			{
-				if (ft_strncmp((*env)[i], str, till_eq((*env)[i])))
-				{
-					new_env[i2] = ft_strdup((*env)[i]);
-					i2++;
-				}
-				i++;
-			}
-			new_env[i2] = NULL;
+			unset_args_utils(env, &new_env, str);
 			free_matrix(*env);
 			*env = new_env;
 			return ;
