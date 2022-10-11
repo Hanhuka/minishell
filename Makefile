@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/10/07 20:14:17 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/10/11 16:04:12 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRCS_		=	\
 				builtins/echo/echo.c \
 				builtins/export/export.c \
 				builtins/export/export_utils.c \
+				builtins/unset/unset.c \
 				\
 				libs/lib.c \
 				libs/lib2.c \

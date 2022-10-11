@@ -6,42 +6,42 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 20:13:49 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/11 16:02:49 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-#define MINISHELL_H
+# define MINISHELL_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <signal.h>
-#include <termios.h>
-#include <fcntl.h>
-#include <sys/syscall.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <sys/wait.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <string.h>
+# include <signal.h>
+# include <termios.h>
+# include <fcntl.h>
+# include <sys/syscall.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <sys/wait.h>
 
-#define SHELL "shell"
+# define SHELL "shell"
 
-#define PIPE 1
-#define CMD 2
-#define IN 3
-#define OUT 4
-#define DOC 5
-#define APD 6
-#define ARG 7
-#define FLG 8
+# define PIPE 1
+# define CMD 2
+# define IN 3
+# define OUT 4
+# define DOC 5
+# define APD 6
+# define ARG 7
+# define FLG 8
 
-#define SI_IGN 1
-#define SI_HDOC 2
-#define SI_RLINE 3
-#define SI_DFL 4
+# define SI_IGN 1
+# define SI_HDOC 2
+# define SI_RLINE 3
+# define SI_DFL 4
 
-extern int g_status;
+extern int	g_status;
 
 typedef struct s_exec
 {
@@ -67,7 +67,7 @@ typedef struct s_tree
 	struct s_tree	*right;
 	struct s_tree	*left;
 	struct s_tree	*up;
-	char*			str;
+	char			*str;
 	int				pipe[2];
 	int				id;
 	int				pipenbr;
@@ -90,7 +90,7 @@ typedef struct s_addvar
 	int		end;
 	int		i;
 	int		i2;
-} t_add_var;
+}	t_add_var;
 
 //lib.c
 int			ft_strlen(const char *str);
@@ -105,7 +105,7 @@ long int	ft_atoi(const char *str);
 char		*ft_itoa(int n);
 
 //lib3.c
-void	*ft_memset(void *b, int c, size_t len);
+void		*ft_memset(void *b, int c, size_t len);
 
 //split_join.c
 char		**ft_split(char const *str, char c);
@@ -121,7 +121,8 @@ void		add_pos(int pos, int count, t_pipe **pipes);
 //parser.c
 void		parser_utils(char *str, int *i);
 void		parser(char *str, t_tree **tree, int count, char **env);
-void		parse_all_pipes(char *str, char **matrix, t_tree **tree, char **env);
+void		parse_all_pipes(char *str, char **matrix, t_tree **tree, \
+	char **env);
 void		parse_string(char *str, t_parse prs, int exprt);
 
 //parser_utils.c
@@ -160,7 +161,7 @@ int			skip_heredoc(char *str, int i);
 void		get_status_utils(char *str, int i, char *val, char **newstr);
 
 //treat_tilde.c
-char	*treat_tilde(char *str, char **env);
+char		*treat_tilde(char *str, char **env);
 
 //quotes.c
 int			is_diff_s(char *str, int i, char *test);
@@ -218,6 +219,9 @@ int			ft_export(char **args, char ***env);
 
 //export_utils.c
 int			no_args(char **env);
+
+//unset.c
+int			ft_unset(char **args, char ***env);
 
 //executor_prep2.c
 char		*not_absolute(char *cmd, char **path);
