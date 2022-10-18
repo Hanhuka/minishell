@@ -6,14 +6,14 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:01:15 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/10/07 12:05:19 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:02:28 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 // #include "../builtins.h"
 
-int	ft_pwd(void)
+int	ft_pwd(int fd)
 {
 	char	*pwd;
 
@@ -25,8 +25,8 @@ int	ft_pwd(void)
 		ft_putstr_fd("\n", STDERR_FILENO);
 		return (1);
 	}
-	ft_putstr_fd(pwd, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
+	ft_putstr_fd(pwd, fd);
+	ft_putstr_fd("\n", fd);
 	free(pwd);
 	return (1);
 }

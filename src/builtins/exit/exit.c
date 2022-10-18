@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 16:30:16 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/10/07 20:09:30 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/17 15:14:37 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_exit(char **args)
 		nbr = 1;
 	if ((nbr && matrix_size(args) == 2) || matrix_size(args) == 1)
 	{
-		ft_putstr_fd("exit\n", 1);
+		ft_putstr_fd("exit\n", 2);
 		if (nbr)
 		{
 			g_status = (unsigned int) ft_atoi(args[1]);
@@ -81,7 +81,7 @@ int	exit_continue(char **args, int nbr)
 		return (-1);
 	}
 	g_status = 2;
-	ft_putstr_fd("shell: exit: ", 2);
+	ft_putstr_fd("exit\nshell: exit: ", 2);
 	ft_putstr_fd(args[1], 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
 	free_matrix(args);

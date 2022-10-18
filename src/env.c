@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:41:23 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/26 14:47:54 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:21:34 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,3 @@ char	**get_env(char **env)
 	copy[i] = NULL;
 	return (copy);
 }
-
-// char	***envi(void)
-// {
-// 	static char	**cenas;
-
-// 	return (&cenas);
-// }

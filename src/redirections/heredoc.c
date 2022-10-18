@@ -6,13 +6,13 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:22:19 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 19:49:15 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/17 14:43:48 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-void	heredoc_filler_utils(char *str, char *eof)
+void	heredoc_filler_utils(char *str, char *eof, int exit_stat)
 {
 	ft_putstr_fd("\nshell: warning: here-document delimited ", 1);
 	ft_putstr_fd("by end-of-file (wanted `", 1);
@@ -20,7 +20,7 @@ void	heredoc_filler_utils(char *str, char *eof)
 	ft_putstr_fd("')\n", 1);
 	free(eof);
 	free(str);
-	exit(0);
+	exit(exit_stat);
 }
 
 void	no_heredoc_utils(t_tree *tree, t_exec *e, int i)
@@ -36,7 +36,7 @@ void	no_heredoc_utils(t_tree *tree, t_exec *e, int i)
 		dup2(fd, STDIN_FILENO);
 }
 
-void	heredoc_filler(int fd, char *eof)
+void	heredoc_filler(int fd, char *eof, int exit_stat)
 {
 	char	*line;
 	char	*str;
@@ -46,7 +46,7 @@ void	heredoc_filler(int fd, char *eof)
 		call_sigact(SI_HDOC);
 		str = readline("\e[1;95mheredoc> \e[0m");
 		if (!str)
-			heredoc_filler_utils(str, eof);
+			heredoc_filler_utils(str, eof, exit_stat);
 		line = ft_strjoin(str, "\n");
 		free(str);
 		if (line)
@@ -74,11 +74,11 @@ void	ft_heredoc(t_tree *tree, t_exec *e, int i)
 		heredoc = open(".heredoc_tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (heredoc == -1)
 			in_error(tree->str);
-		heredoc_filler(heredoc, ft_strjoin(tree->str, "\n"));
+		heredoc_filler(heredoc, ft_strjoin(tree->str, "\n"), 0);
 		close(heredoc);
 		heredoc = open(".heredoc_tmp", O_RDONLY);
 		dup2(heredoc, STDIN_FILENO);
 	}
 	else
-		heredoc_filler(-1, ft_strjoin(tree->str, "\n"));
+		heredoc_filler(-1, ft_strjoin(tree->str, "\n"), 0);
 }

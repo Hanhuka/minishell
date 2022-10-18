@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/11 16:02:49 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/17 15:13:18 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,26 +199,26 @@ char		*find_command(t_tree	*tree, int pos);
 char		**get_path(char **env);
 
 //run_buitins.c
-int			check_builtin(t_tree *tree, char ***env, char *cmd);
+int			check_builtin(t_tree *tree, char ***env, char *cmd, int pos);
 
 //exit.c
 int			ft_exit(char **args);
 int			matrix_size(char **matrix);
 
 //env.c
-int			ft_env(char **env);
+int			ft_env(char **env, int fd);
 
 //pwd.c
-int			ft_pwd(void);
+int			ft_pwd(int fd);
 
 //echo.c
-int			ft_echo(char **args);
+int			ft_echo(char **args, int fd);
 
 //export.c
-int			ft_export(char **args, char ***env);
+int			ft_export(char **args, char ***env, int fd);
 
 //export_utils.c
-int			no_args(char **env);
+int			no_args(char **env, int fd);
 
 //unset.c
 int			ft_unset(char **args, char ***env);
@@ -239,7 +239,7 @@ void		redirections(t_tree *tree, t_exec *e, int *fd);
 
 //heredoc.c
 void		no_heredoc_utils(t_tree *tree, t_exec *e, int i);
-void		heredoc_filler(int fd, char *eof);
+void		heredoc_filler(int fd, char *eof, int exit_stat);
 void		ft_heredoc(t_tree *tree, t_exec *e, int i);
 
 //signal_handle.c

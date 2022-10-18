@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/11 17:15:18 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/17 15:21:33 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@ void	child_process(t_tree *tree, t_exec *e, int *fd)
 {
 	redirections(tree, e, fd);
 	call_sigact(SI_DFL);
-	//Add builtins
+	if (check_builtin(tree, e->env, find_command(tree, e->pos), e->pos))
+		exit(g_status);
 	execve(cmd_path(find_command(tree, e->pos), *(e->env)),
 		get_args(tree, e->pos), *(e->env));
+	free_tree(tree);
 	exit(127);
 }
 
@@ -72,7 +74,7 @@ void	execute_tree(t_tree **tree, char ***env)
 
 	i = 0;
 	count = cmd_count(*tree);
-	if (count == 1 && check_builtin(*tree, env, find_command(*tree, 0)))
+	if (count == 1 && check_builtin(*tree, env, find_command(*tree, 0), 0))
 		return ;
 	ptr = *tree;
 	while (ptr)

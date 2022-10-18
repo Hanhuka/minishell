@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:17:51 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/11 16:28:52 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/14 12:00:31 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	export_args(char *str, char ***env)
 	free(str);
 }
 
-int	ft_export(char **args, char ***env)
+int	ft_export(char **args, char ***env, int fd)
 {
 	int	y;
 
@@ -105,7 +105,7 @@ int	ft_export(char **args, char ***env)
 	if (matrix_size(args) == 1)
 	{
 		free_matrix(args);
-		return (no_args(*env));
+		return (no_args(*env, fd));
 	}
 	while (args[y])
 		export_args(treat_dollar2(ft_strdup(args[y++]), *env), env);
