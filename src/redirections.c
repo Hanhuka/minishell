@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 10:45:10 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/23 20:22:16 by marvin           ###   ########.fr       */
+/*   Updated: 2022/10/18 12:30:46 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	count_redirect(t_tree *tree, t_exec *e, int id)
+int	count_redirect(t_tree *tree, int pos, int id)
 {
 	int	count;
 
@@ -22,7 +22,7 @@ int	count_redirect(t_tree *tree, t_exec *e, int id)
 		if (((tree->id == OUT || tree->id == APD) && id == OUT)
 			|| ((tree->id == IN || tree->id == DOC) && id == IN))
 			count++;
-		if (!(e->pos))
+		if (!pos)
 			tree = tree->left;
 		else
 			tree = tree->right;

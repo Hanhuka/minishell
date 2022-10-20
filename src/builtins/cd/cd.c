@@ -6,12 +6,11 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:13:45 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/09/22 17:03:10 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:51:10 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
-#include "../builtins.h"
 
 void	err_handle(char **args)
 {
@@ -20,52 +19,100 @@ void	err_handle(char **args)
 	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
 }
 
-int	input_check(char **args, char **env bool input)
+int	input_check(char **args, char **env)
 {
 	int	i;
 
-	if (args[1] != 0)
+	if (matrix_size(args) > 2)
 	{
-		*input = true;
+		printf("Shell: cd: too many arguments\n");
 		return (1);
 	}
-	*input = false;
 	i = 0;
 	while (env && env[i] != 0)
 	{
 		if (ft_strncmp(env[i], "HOME=", 5) == 0)
-			return (1);
+			return (0);
 		i++;
 	}
 	ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
-	return (0);
+	return (1);
 }
 
-static int	upd_pwd(int fd, char ***env, char **args, bool input)
+bool	upd_oldpwd(char ***env, char *path)
 {
 	int	i;
+
+	i = 0;
+	while ((*env)[i] != NULL)
+	{
+		if (!strncmp((*env)[i], "OLDPWD=", 7))
+		{
+			free((*env)[i]);
+			(*env)[i] = ft_strjoin("OLDPWD=", path);
+			return (true);
+		}
+		i++;
+	}
+	return (false);
 }
 
-int	ft_cd(char **args, int fd, char ***env)
+int	upd_pwd(char ***env, char *path)
+{
+	int	i;
+
+	i = 0;
+	while ((*env)[i] != NULL)
+	{
+		if (!strncmp((*env)[i], "PWD=", 4))
+		{
+			free((*env)[i]);
+			(*env)[i] = ft_strjoin("PWD=", path);
+			return (1);
+		}
+		i++;
+	}
+	return (1);
+}
+
+int	ft_cd(char **args, char ***env)
 {
 	char	path[1025];
-	bool	input;
+	char	*tmp;
 
-	if (fd > 2)
-		close (fd);
-	if (input_check(&args[1], *env, &input) == 0)
+	if (input_check(&args[1], *env) == 1)
+	{
+		free_matrix(args);
 		return (1);
-	if (getcwd(pwd, 1025) == NULL)
-	{
-		werror("cd");
-		return (errno);
 	}
-	if (chdir(args[1]) == -1)
+	if (getcwd(path, 1025) == NULL)
 	{
-		err_handle(args);
-		return (errno);
+		free_matrix(args);
+		return (1);
 	}
-	if (chage_pwd_vars("OLDPWD=", pwd, env, buf))
-		return (errno);
-	return (upd_pwd(fd, env, &args[1], input));
+	if (matrix_size(args) == 1)
+	{
+		tmp = treat_dollar2(ft_strdup("$HOME"), *env);
+		chdir(tmp);
+		free(tmp);
+	}
+	else if (chdir(args[1]) == -1)
+	{
+		if (matrix_size(args) > 1)
+			err_handle(args);
+		free_matrix(args);
+		return (1);
+	}
+	if (!upd_oldpwd(env, path))
+	{
+		free_matrix(args);
+		return (1);
+	}
+	if (getcwd(path, 1025) == NULL)
+	{
+		free_matrix(args);
+		return (1);
+	}
+	free_matrix(args);
+	return (upd_pwd(env, path));
 }

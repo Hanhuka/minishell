@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/17 15:13:18 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/18 15:05:34 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <signal.h>
 # include <termios.h>
 # include <fcntl.h>
+# include <stdbool.h>
 # include <sys/syscall.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -199,26 +200,34 @@ char		*find_command(t_tree	*tree, int pos);
 char		**get_path(char **env);
 
 //run_buitins.c
+int			built_error(char *str);
 int			check_builtin(t_tree *tree, char ***env, char *cmd, int pos);
+int			check_builtin2(t_tree *tree, char ***env, char *cmd);
 
-//exit.c
-int			ft_exit(char **args);
-int			matrix_size(char **matrix);
+//redir_builtins.c
+int			redirect_in(t_tree *tree);
+
+//cd.c
+int			ft_cd(char **args, char ***env);
+
+//echo.c
+int			ft_echo(char **args, int fd);
 
 //env.c
 int			ft_env(char **env, int fd);
 
-//pwd.c
-int			ft_pwd(int fd);
-
-//echo.c
-int			ft_echo(char **args, int fd);
+//exit.c
+int			ft_exit(char **args);
+int			matrix_size(char **matrix);
 
 //export.c
 int			ft_export(char **args, char ***env, int fd);
 
 //export_utils.c
 int			no_args(char **env, int fd);
+
+//pwd.c
+int			ft_pwd(int fd);
 
 //unset.c
 int			ft_unset(char **args, char ***env);
@@ -231,7 +240,7 @@ int			nbr_args(t_tree	*tree, int pos);
 char		**get_args(t_tree *tree, int pos);
 
 //redirections.c
-int			count_redirect(t_tree *tree, t_exec *e, int id);
+int			count_redirect(t_tree *tree, int pos, int id);
 void		in_error(char *str);
 void		open_in(t_tree *tree, t_exec *e);
 void		open_out(t_tree *tree, t_exec *e);

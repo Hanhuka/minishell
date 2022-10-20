@@ -52,6 +52,7 @@ static void	handle_signals_heredoc(int sig, siginfo_t *info, void *ucontext)
 	else if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
+		unlink(".heredoc_tmp");
 		exit(130);
 	}
 }
@@ -91,6 +92,5 @@ void	ignore_slashl(void)
 
 	sigemptyset(&set);
 	sigaddset(&set, SIGQUIT);
-
 	sigprocmask(SIG_BLOCK, &set, NULL);
 }

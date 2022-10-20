@@ -20,6 +20,7 @@ void	heredoc_filler_utils(char *str, char *eof, int exit_stat)
 	ft_putstr_fd("')\n", 1);
 	free(eof);
 	free(str);
+	unlink(".heredoc_tmp");
 	exit(exit_stat);
 }
 

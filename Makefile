@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/10/11 16:04:12 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/10/18 15:06:18 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRCS_		=	\
 				builtins/export/export.c \
 				builtins/export/export_utils.c \
 				builtins/unset/unset.c \
+				builtins/cd/cd.c \
 				\
 				libs/lib.c \
 				libs/lib2.c \
@@ -57,7 +58,8 @@ SRCS_		=	\
 				parser/backslash.c \
 				\
 				redirections/redirections.c \
-				redirections/heredoc.c
+				redirections/heredoc.c \
+				redirections/redir_builtins.c
 
 SRCS		=	$(addprefix $(_SRC), $(SRCS_))
 

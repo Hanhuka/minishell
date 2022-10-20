@@ -68,7 +68,8 @@ void	export_args(char *str, char ***env)
 	i = 0;
 	while ((*env)[i])
 	{
-		if ((till_eq((*env)[i]) == -1 && !ft_strncmp((*env)[i], str, ft_strlen((*env)[i]))))
+		if ((till_eq((*env)[i]) == -1
+			&& !ft_strncmp((*env)[i], str, ft_strlen((*env)[i]))))
 		{
 			free((*env)[i]);
 			(*env)[i] = ft_strdup(str);
