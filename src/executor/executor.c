@@ -16,6 +16,7 @@ void	child_process(t_tree *tree, t_exec *e, int *fd)
 {
 	redirections(tree, e, fd);
 	call_sigact(SI_DFL);
+	rl_clear_history();
 	if (check_builtin(tree, e->env, find_command(tree, e->pos), e->pos))
 		exit(g_status);
 	execve(cmd_path(find_command(tree, e->pos), *(e->env)),

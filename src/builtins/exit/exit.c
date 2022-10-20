@@ -62,10 +62,12 @@ int	ft_exit(char **args)
 		{
 			g_status = (unsigned int) ft_atoi(args[1]);
 			free_matrix(args);
+			rl_clear_history();
 			exit(g_status);
 		}
 		g_status = 0;
 		free_matrix(args);
+		rl_clear_history();
 		exit(0);
 	}
 	return (exit_continue(args, nbr));
@@ -85,6 +87,7 @@ int	exit_continue(char **args, int nbr)
 	ft_putstr_fd(args[1], 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
 	free_matrix(args);
+	rl_clear_history();
 	exit(2);
 	return (-69);
 }

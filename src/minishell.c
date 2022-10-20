@@ -36,6 +36,7 @@ int	main(int ac, char **av, char **env)
 		if (!line)
 		{
 			printf("\nexit\n");
+			rl_clear_history();
 			exit(0);
 		}
 		if (!ft_strlen(line))
