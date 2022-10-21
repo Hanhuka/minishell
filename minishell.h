@@ -20,6 +20,8 @@
 # include <signal.h>
 # include <termios.h>
 # include <fcntl.h>
+#include <dirent.h>
+#include <sys/types.h>
 # include <stdbool.h>
 # include <sys/syscall.h>
 # include <readline/readline.h>

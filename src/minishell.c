@@ -30,6 +30,7 @@ int	main(int ac, char **av, char **env)
 	{
 		call_sigact(SI_RLINE);
 		line = readline("\e[1;32mralves-g&pcoimbra:\e[1;34mshell> \e[0m");
+		// line = readline("ralves-g&pcoimbra:shell> ");
 		call_sigact(SI_IGN);
 		if (line && ft_strlen(line))
 			add_history(line);

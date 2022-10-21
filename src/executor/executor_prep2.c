@@ -41,7 +41,18 @@ char	*not_absolute(char *cmd, char **path)
 
 char	*absolute(char *cmd)
 {
-	if (access(cmd, F_OK) < 0)
+	DIR *dirptr;
+
+	if ((dirptr = opendir (cmd)) != NULL)
+	{
+		closedir (dirptr);
+		ft_putstr_fd("shell: permission denied: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd("\n", 2);
+		g_status = 126;
+		exit(126);
+	}
+	if (access(cmd, X_OK) < 0)
 	{
 		ft_putstr_fd("shell: command not found: ", 2);
 		ft_putstr_fd(cmd, 2);
