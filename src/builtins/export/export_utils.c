@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:13:04 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/14 11:59:54 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:23:07 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,23 @@ int	no_args(char **env, int fd)
 		y++;
 	}
 	return (1);
+}
+
+void	export_args_utils(char *str, char ***env, int i)
+{
+	free((*env)[i]);
+	(*env)[i] = ft_strdup(str);
+	free(str);
+}
+
+void	export_args_utils2(char *str, char ***env, int i)
+{
+	if (!((*env)[i]))
+		exprt_new(str, env, i);
+	else
+	{
+		free((*env)[i]);
+		(*env)[i] = ft_strdup(str);
+	}
+	free(str);
 }

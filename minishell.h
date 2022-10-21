@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/18 15:05:34 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:42:33 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <signal.h>
 # include <termios.h>
 # include <fcntl.h>
-#include <dirent.h>
-#include <sys/types.h>
+# include <dirent.h>
+# include <sys/types.h>
 # include <stdbool.h>
 # include <sys/syscall.h>
 # include <readline/readline.h>
@@ -123,7 +123,7 @@ void		add_pos(int pos, int count, t_pipe **pipes);
 
 //parser.c
 void		parser_utils(char *str, int *i);
-void		parser(char *str, t_tree **tree, int count, char **env);
+void		parser(char *str, t_tree **tree, int count, char ***env);
 void		parse_all_pipes(char *str, char **matrix, t_tree **tree, \
 	char **env);
 void		parse_string(char *str, t_parse prs, int exprt);
@@ -160,6 +160,7 @@ char		**treat_dollar(char **matrix, char **env);
 char		*treat_dollar2(char *str, char **env);
 
 //treat_dollar3.c
+void		treat_dollar2_util2(int *qt);
 int			skip_heredoc(char *str, int i);
 void		get_status_utils(char *str, int i, char *val, char **newstr);
 
@@ -224,9 +225,12 @@ int			matrix_size(char **matrix);
 
 //export.c
 int			ft_export(char **args, char ***env, int fd);
+void		exprt_new(char *str, char ***env, int size);
 
 //export_utils.c
 int			no_args(char **env, int fd);
+void		export_args_utils(char *str, char ***env, int i);
+void		export_args_utils2(char *str, char ***env, int i);
 
 //pwd.c
 int			ft_pwd(int fd);

@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:29:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/05 18:57:24 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 11:50:56 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ char	*not_absolute(char *cmd, char **path)
 
 char	*absolute(char *cmd)
 {
-	DIR *dirptr;
+	DIR	*dirptr;
 
-	if ((dirptr = opendir (cmd)) != NULL)
+	dirptr = opendir (cmd);
+	if (dirptr)
 	{
-		closedir (dirptr);
+		closedir(dirptr);
 		ft_putstr_fd("shell: permission denied: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd("\n", 2);

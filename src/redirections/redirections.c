@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 10:45:10 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/18 12:31:59 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:10:18 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,6 @@ void	redirections(t_tree *tree, t_exec *e, int *fd)
 {
 	e->in = count_redirect(tree, e->pos, IN);
 	e->out = count_redirect(tree, e->pos, OUT);
-	if (e->in)
-	{
-		if (*fd)
-			close (*fd);
-		open_in(tree, e);
-	}
-	else
-		dup2(*fd, STDIN_FILENO);
 	if (e->out)
 	{
 		close((e->p)[1]);
@@ -118,4 +110,12 @@ void	redirections(t_tree *tree, t_exec *e, int *fd)
 		else
 			dup2((e->p)[1], STDOUT_FILENO);
 	}
+	if (e->in)
+	{
+		if (*fd)
+			close (*fd);
+		open_in(tree, e);
+	}
+	else
+		dup2(*fd, STDIN_FILENO);
 }

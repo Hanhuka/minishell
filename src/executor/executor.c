@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/18 12:40:13 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:13:29 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ t_exec	execute_command(t_tree	*tree, int pos, int count, char ***env)
 	return (e);
 }
 
+static	void	update_status(int val2)
+{
+	if (WIFSIGNALED(val2))
+	{
+		g_status = WTERMSIG(val2) + 128;
+		if (g_status == 130)
+			write(1, "\n", 1);
+	}
+	else
+		g_status = WEXITSTATUS(val2);
+}
+
 void	execute_tree(t_tree **tree, char ***env)
 {
 	t_tree	*ptr;
@@ -87,14 +99,7 @@ void	execute_tree(t_tree **tree, char ***env)
 		i++;
 	}
 	waitpid(e.pid, &val2, 0);
-	if (WIFSIGNALED(val2))
-	{
-		g_status = WTERMSIG(val2) + 128;
-		if (g_status == 130)
-			write(1, "\n", 1);
-	}
-	else
-		g_status = WEXITSTATUS(val2);
+	update_status(val2);
 	i = -1;
 	while (++i < count)
 		wait(NULL);

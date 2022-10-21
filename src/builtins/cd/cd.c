@@ -6,17 +6,22 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 16:13:45 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/10/18 12:51:10 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:31:43 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-void	err_handle(char **args)
+int	err_handle(char **args)
 {
-	ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd(args[1], STDERR_FILENO);
-	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	if (matrix_size(args) > 1)
+	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	}
+	free_matrix(args);
+	return (1);
 }
 
 int	input_check(char **args, char **env)
@@ -80,12 +85,7 @@ int	ft_cd(char **args, char ***env)
 	char	path[1025];
 	char	*tmp;
 
-	if (input_check(&args[1], *env) == 1)
-	{
-		free_matrix(args);
-		return (1);
-	}
-	if (getcwd(path, 1025) == NULL)
+	if (input_check(&args[1], *env) == 1 || getcwd(path, 1025) == NULL)
 	{
 		free_matrix(args);
 		return (1);
@@ -97,18 +97,8 @@ int	ft_cd(char **args, char ***env)
 		free(tmp);
 	}
 	else if (chdir(args[1]) == -1)
-	{
-		if (matrix_size(args) > 1)
-			err_handle(args);
-		free_matrix(args);
-		return (1);
-	}
-	if (!upd_oldpwd(env, path))
-	{
-		free_matrix(args);
-		return (1);
-	}
-	if (getcwd(path, 1025) == NULL)
+		return (err_handle(args));
+	if (!upd_oldpwd(env, path) || getcwd(path, 1025) == NULL)
 	{
 		free_matrix(args);
 		return (1);

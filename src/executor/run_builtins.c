@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 12:03:55 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/18 14:59:51 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:16:23 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	run_builtin(t_tree *tree, char ***env, char *cmd, int fd)
 
 int	check_builtin2(t_tree *tree, char ***env, char *cmd)
 {
+	int	fd;
+
 	if (cmd && (!ft_strncmp(cmd, "exit", ft_strlen("exit") + 1)
 			|| !ft_strncmp(cmd, "env", ft_strlen("env") + 1)
 			|| !ft_strncmp(cmd, "pwd", ft_strlen("pwd") + 1)
@@ -81,9 +83,10 @@ int	check_builtin2(t_tree *tree, char ***env, char *cmd)
 			|| !ft_strncmp(cmd, "unset", ft_strlen("unset") + 1)
 			|| !ft_strncmp(cmd, "cd", ft_strlen("cd") + 1)))
 	{
+		fd = redirect_out(tree);
 		if (redirect_in(tree))
 			return (1);
-		run_builtin(tree, env, cmd, redirect_out(tree));
+		run_builtin(tree, env, cmd, fd);
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 10:17:51 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/14 12:00:31 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:26:07 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,6 @@ void	exprt_new(char *str, char ***env, int size)
 	*env = new_env;
 }
 
-// void	exprt_change(char *str, char ***env, int i)
-// {
-// 	free((*env)[i]);
-// 	(*env)[i] = ft_strdup(str);
-// }
-
 void	export_args(char *str, char ***env)
 {
 	int	i;
@@ -70,12 +64,7 @@ void	export_args(char *str, char ***env)
 	{
 		if ((till_eq((*env)[i]) == -1
 			&& !ft_strncmp((*env)[i], str, ft_strlen((*env)[i]))))
-		{
-			free((*env)[i]);
-			(*env)[i] = ft_strdup(str);
-			free(str);
-			return ;
-		}
+			return (export_args_utils2(str, env, i));
 		if (!ft_strncmp((*env)[i], str, till_eq((*env)[i])))
 		{
 			if (!str[till_eq((*env)[i])])
@@ -88,14 +77,7 @@ void	export_args(char *str, char ***env)
 		}
 		i++;
 	}
-	if (!((*env)[i]))
-		exprt_new(str, env, i);
-	else
-	{
-		free((*env)[i]);
-		(*env)[i] = ft_strdup(str);
-	}
-	free(str);
+	export_args_utils2(str, env, i);
 }
 
 int	ft_export(char **args, char ***env, int fd)

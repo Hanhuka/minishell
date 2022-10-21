@@ -6,11 +6,19 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 17:55:36 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 20:07:55 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 11:56:32 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	treat_dollar2_util2(int *qt)
+{
+	if (!(*qt))
+		*qt = 1;
+	else
+		*qt = 0;
+}
 
 int	skip_heredoc(char *str, int i)
 {

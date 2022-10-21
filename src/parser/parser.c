@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 15:07:26 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 19:55:45 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 12:43:21 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	parser_utils(char *str, int *i)
 	Takes and calls the main parsing functions to create
 	the binary tree
 */
-void	parser(char *str, t_tree **tree, int count, char **env)
+void	parser(char *str, t_tree **tree, int count, char ***env)
 {
 	t_pipe	*pipes;
 	char	**matrix;
@@ -37,7 +37,7 @@ void	parser(char *str, t_tree **tree, int count, char **env)
 
 	i = 0;
 	pipes = NULL;
-	str = treat_tilde(str, env);
+	str = treat_tilde(str, *env);
 	check_pipes(str);
 	if (!str)
 		return ;
@@ -45,9 +45,11 @@ void	parser(char *str, t_tree **tree, int count, char **env)
 	if (*synt())
 		return ;
 	matrix = separate_pipes(str, pipes);
-	parse_all_pipes(str, matrix, tree, env);
+	parse_all_pipes(str, matrix, tree, *env);
 	free_pipes(&pipes);
 	free(str);
+	if (!(*synt()))
+		execute_tree(tree, env);
 }
 
 /*

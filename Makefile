@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/10/18 15:06:18 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/10/21 11:52:36 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ SRCS_		=	\
 				\
 				libs/lib.c \
 				libs/lib2.c \
+				libs/lib3.c \
 				libs/split_join.c \
 				\
 				parser/parse_pipes.c \

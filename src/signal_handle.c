@@ -6,26 +6,11 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:28:35 by pedro             #+#    #+#             */
-/*   Updated: 2022/10/07 20:15:34 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 11:52:15 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	*ft_memset(void *b, int c, size_t len)
-{
-	size_t	i;
-	char	*chr;
-
-	chr = b;
-	i = 0;
-	while (i < len)
-	{		
-		chr[i] = (char) c;
-		i++;
-	}
-	return (b);
-}
 
 static void	handle_signals(int sig, siginfo_t *info, void *ucontext)
 {
