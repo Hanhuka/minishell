@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 16:46:02 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 19:55:18 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 16:30:18 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	parser_utils2(char *str, int *i)
 {
-	while (str[*i] && str[*i] == '|')
-		(*i)++;
 	if (str[*i])
 		(*i)++;
 }
@@ -74,5 +72,7 @@ void	parser_utils3(char *str, t_tree **tree, int count, t_pipe **pipes)
 			count++;
 		}
 		parser_utils2(str, &i);
+		if (*synt())
+			return (free(str));
 	}
 }
