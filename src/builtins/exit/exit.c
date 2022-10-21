@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 16:30:16 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/10/17 15:14:37 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/21 14:31:51 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ft_exit(char **args)
 
 int	exit_continue(char **args, int nbr)
 {
-	if (nbr && args[2] && is_nbr(args[2]))
+	if (nbr && args[2])
 	{
 		ft_putstr_fd("shell: exit: too many arguments\n", 2);
 		g_status = 1;
