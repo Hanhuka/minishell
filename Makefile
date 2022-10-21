@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/10/21 11:52:36 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/10/21 14:41:09 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ SRCS_		=	\
 				env.c \
 				errors_and_frees.c \
 				errors_and_frees2.c \
-				testing_prints.c \
 				path.c \
 				signal_handle.c \
 				\
