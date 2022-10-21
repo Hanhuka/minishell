@@ -65,10 +65,9 @@ int	ft_exit(char **args)
 			rl_clear_history();
 			exit(g_status);
 		}
-		g_status = 0;
 		free_matrix(args);
 		rl_clear_history();
-		exit(0);
+		exit(g_status);
 	}
 	return (exit_continue(args, nbr));
 }
