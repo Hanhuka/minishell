@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:36:05 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 19:49:32 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/24 12:57:17 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	skip_quotes(char *str, int i)
 		i++;
 	if (!str[i])
 	{
-		printf("Skip quotes syntax\n");
+		printf("Unclosed quotes!\n");
 		syntax_error();
 	}
 	return (i);

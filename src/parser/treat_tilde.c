@@ -6,11 +6,23 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 18:29:44 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 19:32:52 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/24 13:04:19 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	treat_tilde_utils(char *str, int *i)
+{
+	if (str[*i] && !is_diff_s(str, *i, "\"'"))
+		*i = skip_quotes(str, *i);
+	if (*synt())
+	{
+		free(str);
+		return (1);
+	}
+	return (0);
+}
 
 void	get_var_tilde_utils(char *str, int i, char *home, char **newstr)
 {
@@ -59,8 +71,8 @@ char	*treat_tilde(char *str, char **env)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] && !is_diff_s(str, i, "\"'"))
-			i = skip_quotes(str, i);
+		if (treat_tilde_utils(str, &i))
+			return (NULL);
 		if (str[i] == '~'
 			&& (i == 0 || str[i - 1] == ' ' || str[i - 1] == '\t')
 			&& (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '\t'))
