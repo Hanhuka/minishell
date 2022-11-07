@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 14:14:12 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/18 15:37:04 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/07 18:21:50 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	treat_in(t_tree *tree)
 
 	while (tree)
 	{
-		if (tree->id == IN || tree->id == DOC)
+		if (tree->id == IN)
 		{
 			if (tree->id == IN)
 			{
@@ -27,8 +27,6 @@ int	treat_in(t_tree *tree)
 					return (built_error(tree->str));
 				close(fd);
 			}
-			else
-				heredoc_filler(-1, ft_strjoin(tree->str, "\n"), 0);
 		}
 		tree = tree->left;
 	}

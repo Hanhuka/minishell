@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/07 14:49:52 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/07 18:21:14 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ void	execute_tree(t_tree **tree, char ***env)
 	t_exec	e;
 
 	i = 0;
+	if (handle_heredoc(tree, &e))
+		return ;
 	count = cmd_count(*tree);
 	if (count == 1 && check_builtin2(*tree, env, find_command(*tree, 0)))
 		return ;
 	ptr = *tree;
-	if (handle_heredoc(tree, &e))
-		return ;
 	while (ptr)
 	{
 		if (!(i == 1 && !(ptr->right)))
