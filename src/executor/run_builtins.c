@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/05 12:03:55 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/21 12:16:23 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/10/24 16:00:40 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	check_builtin2(t_tree *tree, char ***env, char *cmd)
 			|| !ft_strncmp(cmd, "unset", ft_strlen("unset") + 1)
 			|| !ft_strncmp(cmd, "cd", ft_strlen("cd") + 1)))
 	{
-		fd = redirect_out(tree);
 		if (redirect_in(tree))
 			return (1);
+		fd = redirect_out(tree);
 		run_builtin(tree, env, cmd, fd);
 		return (1);
 	}

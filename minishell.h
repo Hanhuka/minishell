@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/21 12:42:33 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/07 12:22:30 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_exec
 	int		p[2];
 	pid_t	pid;
 	int		count;
+	int		fd;
 	int		in;
 	int		out;
 	int		pos;
@@ -195,6 +196,7 @@ int			*synt(void);
 //executor.c
 void		executor(t_tree *tree, t_exec *e, int *fd);
 t_exec		execute_command(t_tree	*tree, int pos, int count, char ***env);
+void		update_status(int val2);
 void		execute_tree(t_tree **tree, char ***env);
 
 //executor_prep.c
@@ -253,9 +255,13 @@ void		open_out(t_tree *tree, t_exec *e);
 void		redirections(t_tree *tree, t_exec *e, int *fd);
 
 //heredoc.c
+void		heredoc_filler_utils(char *str, char *eof, int exit_stat);
 void		no_heredoc_utils(t_tree *tree, t_exec *e, int i);
 void		heredoc_filler(int fd, char *eof, int exit_stat);
 void		ft_heredoc(t_tree *tree, t_exec *e, int i);
+
+//heredoc2.c
+int			handle_heredoc(t_tree **tree, t_exec *e);
 
 //signal_handle.c
 void		call_sigact(char act_choice);

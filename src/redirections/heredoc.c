@@ -6,11 +6,70 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:22:19 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/17 14:43:48 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/07 11:52:18 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+// void	fill_to_pipe(t_tree *tree, t_exec *e)
+// {
+// 	;
+// }
+
+// void	ft_heredoc_fill(t_tree **tree, t_exec *e, int pos)
+// {
+// 	if (pipe((*tree)->pipe))
+// 	{
+// 		ft_putstr_fd("Error: couldn't open pipe\n", 2);
+// 		g_status = 1;
+// 		// return -1;
+// 		return ;
+// 	}
+// 	e->pid = fork();
+// 	if (e->pid < 0)
+// 	{
+// 		ft_putstr_fd("Error: couldn't create a new process\n", 2);
+// 		g_status = 1;
+// 		exit(1);
+// 	}
+// 	if (!(e->pid))
+// 		fill_to_pipe(tree, e);
+// }
+
+// void	ft_heredoc2(t_tree *tree, int pos)
+// {
+// 	while (tree)
+// 	{
+// 		if (tree->id == DOC)
+// 		{
+// 			i++;
+// 			ft_heredoc_fill(&tree, e, i);
+// 			e->doc = 1;
+// 		}
+// 		if (!pos)
+// 			tree = tree->left;
+// 		else
+// 			tree = tree->right;
+// }
+
+// int	handle_heredoc(t_tree **tree, t_exec *e)
+// {
+// 	t_tree	*ptr;
+// 	int		i;
+
+// 	e->pos = 0;
+// 	i = 0;
+// 	ptr = *tree;
+// 	while (ptr)
+// 	{
+// 		if (!(i == 1 && !(ptr->right)))
+// 			ft_heredoc2(ptr, i);
+// 		if (i)
+// 			ptr = ptr->up;
+// 		i++;
+// 	}
+// }
 
 void	heredoc_filler_utils(char *str, char *eof, int exit_stat)
 {
@@ -41,11 +100,13 @@ void	heredoc_filler(int fd, char *eof, int exit_stat)
 {
 	char	*line;
 	char	*str;
-
+ 
 	while (1)
 	{
 		call_sigact(SI_HDOC);
-		str = readline("\e[1;95mheredoc> \e[0m");
+		// ft_putstr_fd("HELLO\n", 2);
+		// str = readline("\e[1;95mheredoc> \e[0m");
+		str = readline("heredoc> ");
 		if (!str)
 			heredoc_filler_utils(str, eof, exit_stat);
 		line = ft_strjoin(str, "\n");
@@ -69,6 +130,8 @@ void	heredoc_filler(int fd, char *eof, int exit_stat)
 void	ft_heredoc(t_tree *tree, t_exec *e, int i)
 {
 	int		heredoc;
+
+	// ft_putstr_fd("HERE!\n", 2);
 
 	if (i == e->in)
 	{

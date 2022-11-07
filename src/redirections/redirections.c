@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 10:45:10 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/21 12:10:18 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/03 19:19:09 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ void	open_in(t_tree *tree, t_exec *e)
 				no_heredoc_utils(tree, e, i);
 			else
 			{
-				ft_heredoc(tree, e, i);
+				if (i == e->in)
+					dup2((tree->pipe)[0], STDIN_FILENO);
+				//	ft_heredoc(tree, e, i);
 				e->doc = 1;
 			}
 		}
@@ -98,6 +100,14 @@ void	redirections(t_tree *tree, t_exec *e, int *fd)
 {
 	e->in = count_redirect(tree, e->pos, IN);
 	e->out = count_redirect(tree, e->pos, OUT);
+	if (e->in)
+	{
+		if (*fd)
+			close (*fd);
+		open_in(tree, e);
+	}
+	else
+		dup2(*fd, STDIN_FILENO);
 	if (e->out)
 	{
 		close((e->p)[1]);
@@ -110,12 +120,4 @@ void	redirections(t_tree *tree, t_exec *e, int *fd)
 		else
 			dup2((e->p)[1], STDOUT_FILENO);
 	}
-	if (e->in)
-	{
-		if (*fd)
-			close (*fd);
-		open_in(tree, e);
-	}
-	else
-		dup2(*fd, STDIN_FILENO);
 }

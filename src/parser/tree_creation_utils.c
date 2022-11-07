@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 19:58:16 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 20:07:30 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:27:25 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	add_case_util(char *str, int *i, int *i2)
 
 void	add_case_util2(int id, char *str, t_parse prs)
 {
-	if ((id == ARG && *(prs.exprt)) || id == DOC)
+	if (id == DOC)
 	{
 		if (!(*(prs.ptr)))
 			add_to_tree_n(id, remove_quotes(str), prs.ptr);

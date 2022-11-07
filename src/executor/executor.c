@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/21 12:13:29 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/07 13:11:56 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_exec	execute_command(t_tree	*tree, int pos, int count, char ***env)
 	return (e);
 }
 
-static	void	update_status(int val2)
+void	update_status(int val2)
 {
 	if (WIFSIGNALED(val2))
 	{
@@ -90,6 +90,7 @@ void	execute_tree(t_tree **tree, char ***env)
 	if (count == 1 && check_builtin2(*tree, env, find_command(*tree, 0)))
 		return ;
 	ptr = *tree;
+	handle_heredoc(tree, &e);
 	while (ptr)
 	{
 		if (!(i == 1 && !(ptr->right)))
@@ -103,5 +104,5 @@ void	execute_tree(t_tree **tree, char ***env)
 	i = -1;
 	while (++i < count)
 		wait(NULL);
-	unlink(".heredoc_tmp");
+	// unlink(".heredoc_tmp");
 }
