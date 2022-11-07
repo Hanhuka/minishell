@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 07:52:46 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/07 14:22:07 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:00:33 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	heredoc_filler2(int fd, char *eof, int exit_stat)
 	exit(0);
 }
 
-void	ft_heredoc2(t_tree **tree, t_exec *e, int i)
+int	ft_heredoc2(t_tree **tree, t_exec *e, int i)
 {
 	int	stat;
 
@@ -62,13 +62,20 @@ void	ft_heredoc2(t_tree **tree, t_exec *e, int i)
 	if (!(e->pid))
 	{
 		if (i == e->in)
-			heredoc_filler2(((*tree)->pipe)[1], ft_strjoin((*tree)->str, "\n"), 0);
+			heredoc_filler2(((*tree)->pipe)[1], ft_strjoin((*tree)->str, "\n"), 129);
 		else
 			heredoc_filler2(-1, ft_strjoin((*tree)->str, "\n"), 0);
 	}
 	close(((*tree)->pipe)[1]);
 	waitpid(e->pid, &stat, 0);
 	update_status(stat);
+	if (g_status == 129 || g_status == 130)
+	{
+		if (g_status == 129)
+			g_status = 0;
+		return (1);
+	}
+	return (0);
 }
 
 int	check_heredoc(t_tree **tree, t_exec *e)
@@ -85,7 +92,8 @@ int	check_heredoc(t_tree **tree, t_exec *e)
 		{
 			i++;
 			if (ptr->id == DOC)
-				ft_heredoc2(&ptr, e, i);
+				if (ft_heredoc2(&ptr, e, i))
+					return (1);
 		}
 		if (!(e->pos))
 			ptr = ptr->left;
@@ -101,7 +109,7 @@ int	handle_heredoc(t_tree **tree, t_exec *e)
 
 	e->pos = 0;
 	ptr = *tree;
-	while (ptr)
+	while (ptr)	
 	{
 		if (!(e->pos == 1 && !(ptr->right)))
 		{
