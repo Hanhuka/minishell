@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/07 18:21:14 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 12:02:54 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	child_process(t_tree *tree, t_exec *e, int *fd)
 {
+	close((e->p)[0]);
 	redirections(tree, e, fd);
 	call_sigact(SI_DFL);
 	rl_clear_history();
