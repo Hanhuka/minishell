@@ -6,7 +6,7 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/11/08 10:58:32 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/11/08 16:18:15 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS_		=	\
 				executor/executor.c \
 				executor/executor_prep.c \
 				executor/executor_prep2.c \
+				executor/executor_prep3.c \
 				executor/run_builtins.c \
 				\
 				builtins/exit/exit.c \

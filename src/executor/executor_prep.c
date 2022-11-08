@@ -6,11 +6,20 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:26:20 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/09/23 12:35:15 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:51:05 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int	execute_tree_utils(t_tree **tree, t_exec *e, int *i, int *count)
+{
+	*i = 0;
+	if (handle_heredoc(tree, e))
+		return (1);
+	*count = cmd_count(*tree);
+	return (0);
+}
 
 int	cmd_count(t_tree *tree)
 {

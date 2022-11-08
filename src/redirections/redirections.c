@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 10:45:10 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/03 19:19:09 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:24:48 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	open_in(t_tree *tree, t_exec *e)
 			{
 				if (i == e->in)
 					dup2((tree->pipe)[0], STDIN_FILENO);
-				//	ft_heredoc(tree, e, i);
 				e->doc = 1;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/08 11:12:18 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 16:29:12 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,7 @@ void		update_status(int val2);
 void		execute_tree(t_tree **tree, char ***env);
 
 //executor_prep.c
+int			execute_tree_utils(t_tree **tree, t_exec *e, int *i, int *count);
 int			cmd_count(t_tree *tree);
 char		*find_command(t_tree	*tree, int pos);
 char		**get_path(char **env);
@@ -248,6 +249,11 @@ char		*cmd_path(char *cmd, char **env);
 int			nbr_args(t_tree	*tree, int pos);
 char		**get_args(t_tree *tree, int pos);
 
+//executor_prep3.c
+void		command_error(char *str, char *cmd, int stat);
+void		no_path(char **path);
+int			check_path(char *cmd, char *tmp, char **path);
+
 //redirections.c
 int			count_redirect(t_tree *tree, int pos, int id);
 void		in_error(char *str);
@@ -256,13 +262,12 @@ void		open_out(t_tree *tree, t_exec *e);
 void		redirections(t_tree *tree, t_exec *e, int *fd);
 
 //heredoc.c
-void		heredoc_filler_utils(char *str, char *eof, int exit_stat);
-void		no_heredoc_utils(t_tree *tree, t_exec *e, int i);
-void		heredoc_filler(int fd, char *eof, int exit_stat);
-void		ft_heredoc(t_tree *tree, t_exec *e, int i);
+int			handle_heredoc(t_tree **tree, t_exec *e);
 
 //heredoc2.c
-int			handle_heredoc(t_tree **tree, t_exec *e);
+void		heredoc_filler_utils(char *str, char *eof, int exit_stat);
+void		no_heredoc_utils(t_tree *tree, t_exec *e, int i);
+int			wait_heredoc(t_tree **tree, t_exec *e);
 
 //signal_handle.c
 void		call_sigact(char act_choice);

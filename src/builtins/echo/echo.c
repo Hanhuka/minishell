@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 14:24:08 by pcoimbra          #+#    #+#             */
-/*   Updated: 2022/11/08 11:46:58 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 15:24:27 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	check_flag(char *arg)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (arg[++i])
