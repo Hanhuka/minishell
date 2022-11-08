@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 14:25:48 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/07 14:22:17 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 10:58:17 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	rl_crl_d(char *line)
 	{
 		printf("\nexit\n");
 		rl_clear_history();
-		exit(0);
+		exit(g_status);
 	}
 }
 
@@ -52,8 +52,8 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		call_sigact(SI_RLINE);
-		// line = readline("\e[1;32mralves-g&pcoimbra:\e[1;34mshell> \e[0m");
-		line = readline("ralves-g&pcoimbra:shell> ");
+		line = readline("\e[1;32mralves-g&pcoimbra:\e[1;34mshell> \e[0m");
+		// line = readline("ralves-g&pcoimbra:shell> ");
 
 		call_sigact(SI_IGN);
 		if (line && ft_strlen(line))

@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/07 12:22:30 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:12:18 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <fcntl.h>
 # include <dirent.h>
 # include <sys/types.h>
+# include <sys/stat.h>
 # include <stdbool.h>
 # include <sys/syscall.h>
 # include <readline/readline.h>

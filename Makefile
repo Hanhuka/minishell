@@ -6,11 +6,11 @@
 #    By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/26 16:26:20 by ralves-g          #+#    #+#              #
-#    Updated: 2022/11/07 12:00:32 by ralves-g         ###   ########.fr        #
+#    Updated: 2022/11/08 10:58:32 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC			=	clang
+CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g
 RM			=	rm -f
 

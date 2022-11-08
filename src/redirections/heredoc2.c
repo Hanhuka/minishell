@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 07:52:46 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/07 15:00:33 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 10:22:23 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	heredoc_filler2(int fd, char *eof, int exit_stat)
 	while (1)
 	{
 		call_sigact(SI_HDOC);
-		str = readline("heredoc> ");
+		str = readline("\e[1;95mheredoc> \e[0m");
+		// str = readline("heredoc> ");
 		if (!str)
 			heredoc_filler_utils(str, eof, exit_stat);
 		line = ft_strjoin(str, "\n");

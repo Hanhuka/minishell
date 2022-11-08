@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:29:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/07 17:53:57 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/08 11:50:12 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,55 @@
 
 char	*not_absolute(char *cmd, char **path)
 {
-	int		i;
-	char	*tmp;
+	int			i;
+	char		*tmp;
+	struct stat	statbuf;
+	char		*pwd;
+	char		*pwd2;
 
+	i = -1;
+	if (cmd[0] && cmd[0] == '.')
+	{
+		pwd = getcwd(NULL, 0);
+		pwd2 = ft_strjoin(pwd, "/");
+		free(pwd);
+		tmp = ft_strjoin(pwd2, cmd);
+		lstat(tmp, &statbuf);
+		// printf("%s\n%d\n", tmp, S_ISDIR(statbuf.st_mode));
+		if (S_ISDIR(statbuf.st_mode))
+		{
+			ft_putstr_fd("shell: is a directory: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd("\n", 2);
+			g_status = 126;
+			exit(126);
+		}
+		if (access(tmp, X_OK) >= 0)
+		{
+			free_matrix(path);
+			return (tmp);
+		}
+		free(tmp);
+	}
 	if (!path)
 	{
 		ft_putstr_fd("shell: path is unset\n", 2);
 		g_status = 127;
 		exit(127);
 	}
-	i = -1;
-	if (access(cmd, X_OK) >= 0 && cmd[0]
-		&& cmd[0] == '.' && cmd[1] && cmd[1] == '/')
-		return (cmd);
 	while (path[++i])
 	{
 		tmp = ft_strjoin(path[i], cmd);
+		lstat(tmp, &statbuf);
+		// printf("%s\n%d\n", tmp, S_ISDIR(statbuf.st_mode));
+		if (S_ISDIR(statbuf.st_mode))
+		{
+			ft_putstr_fd("shell: is a directory: ", 2);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd("\n", 2);
+			g_status = 126;
+			exit(126);
+		}
 		if (access(tmp, X_OK) >= 0)
 		{
 			free_matrix(path);
