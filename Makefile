@@ -9,7 +9,9 @@
 #    Updated: 2022/11/08 16:18:15 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 # -fsanitize=address
+
 CC			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	rm -f
@@ -91,3 +93,5 @@ fclean:	clean
 	$(RM) $(NAME)
 
 re:	fclean all
+
+.PHONY:	all clean fclean re

@@ -29,6 +29,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 
+// # define malloc(x) NULL
 # define SHELL "shell"
 
 # define PIPE 1
@@ -273,4 +274,5 @@ int			wait_heredoc(t_tree **tree, t_exec *e);
 //signal_handle.c
 void		call_sigact(char act_choice);
 void		ignore_slashl(void);
+
 #endif

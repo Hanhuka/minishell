@@ -32,6 +32,11 @@ char	**get_env(char **env)
 	while (env[i])
 		i++;
 	copy = malloc(sizeof(char *) * (i + 1));
+	if (!copy)
+	{
+		ft_putstr_fd("Error: couldn't allocate space\n", 2);
+		exit(1);
+	}
 	i = 0;
 	while (env[i])
 	{
