@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/20 15:15:43 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/08 16:29:12 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/09 12:08:55 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,13 +243,14 @@ int			ft_pwd(int fd);
 int			ft_unset(char **args, char ***env);
 
 //executor_prep2.c
-char		*not_absolute(char *cmd, char **path);
+char		*not_absolute(char *cmd, char **path, int i);
 char		*absolute(char *cmd);
 char		*cmd_path(char *cmd, char **env);
 int			nbr_args(t_tree	*tree, int pos);
 char		**get_args(t_tree *tree, int pos);
 
 //executor_prep3.c
+int			check_slash(char *str);
 void		command_error(char *str, char *cmd, int stat);
 void		no_path(char **path);
 int			check_path(char *cmd, char *tmp, char **path);

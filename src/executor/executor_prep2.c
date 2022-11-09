@@ -6,20 +6,18 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:29:14 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/08 16:17:08 by ralves-g         ###   ########.fr       */
+/*   Updated: 2022/11/09 12:17:20 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-char	*not_absolute(char *cmd, char **path)
+char	*not_absolute(char *cmd, char **path, int i)
 {
-	int			i;
 	char		*tmp;
 	char		*pwd;
 	char		*pwd2;
 
-	i = -1;
 	if (cmd[0] && cmd[0] == '.')
 	{
 		pwd = getcwd(NULL, 0);
@@ -36,6 +34,8 @@ char	*not_absolute(char *cmd, char **path)
 		if (check_path(cmd, tmp, path))
 			return (tmp);
 	}
+	if (check_slash(cmd))
+		command_error("shell: No such file or directory: ", cmd, 127);
 	command_error("shell: command not found: ", cmd, 127);
 	return (NULL);
 }
@@ -48,9 +48,9 @@ char	*absolute(char *cmd)
 	if (dirptr)
 	{
 		closedir(dirptr);
-		ft_putstr_fd("shell: permission denied: ", 2);
+		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd(": Is a directory\n", 2);
 		g_status = 126;
 		exit(126);
 	}
@@ -69,10 +69,19 @@ char	*cmd_path(char *cmd, char **env)
 {
 	if (!cmd)
 		return (NULL);
+	if (ft_strlen(cmd) == 1 && cmd[0] == '.')
+	{
+		ft_putstr_fd("shell: .: filename argument required\n", 2);
+		ft_putstr_fd(".: usage: . filename [arguments]\n", 2);
+		g_status = 126;
+		exit(126);
+	}
+	if (ft_strlen(cmd) == 2 && cmd[0] == '.' && cmd[1] == '.')
+		command_error("shell: command not found: ", cmd, 127);
 	if (cmd[0] == '/')
 		return (absolute(cmd));
 	else
-		return (not_absolute(cmd, get_path(env)));
+		return (not_absolute(cmd, get_path(env), -1));
 }
 
 int	nbr_args(t_tree	*tree, int pos)
