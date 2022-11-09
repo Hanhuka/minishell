@@ -9,9 +9,9 @@
 #    Updated: 2022/11/08 16:18:15 by ralves-g         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
+# -fsanitize=address
 CC			=	cc
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	rm -f
 
 NAME		=	minishell

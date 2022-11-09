@@ -12,7 +12,8 @@
 
 #include "../../minishell.h"
 
-		// str = readline("heredoc> ");
+		// str = readline("\e[1;95mheredoc> \e[0m");
+
 void	heredoc_filler_utils2(char *eof, char *line)
 {
 	free(eof);
@@ -29,7 +30,7 @@ void	heredoc_filler(int fd, char *eof, int exit_stat)
 	while (1)
 	{
 		call_sigact(SI_HDOC);
-		str = readline("\e[1;95mheredoc> \e[0m");
+		str = readline("heredoc> ");
 		if (!str)
 			heredoc_filler_utils(str, eof, exit_stat);
 		line = ft_strjoin(str, "\n");
