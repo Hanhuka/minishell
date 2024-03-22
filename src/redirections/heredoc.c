@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 14:22:19 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/08 16:34:47 by ralves-g         ###   ########.fr       */
+/*   Updated: 2024/03/22 19:16:51 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	heredoc_filler_utils2(char *eof, char *line)
 	exit(0);
 }
 
-void	heredoc_filler(int fd, char *eof, int exit_stat)
+void	heredoc_filler(int fd, char *eof, int exit_stat, char **env)
 {
 	char	*line;
 	char	*str;
@@ -33,6 +33,9 @@ void	heredoc_filler(int fd, char *eof, int exit_stat)
 		str = readline("heredoc> ");
 		if (!str)
 			heredoc_filler_utils(str, eof, exit_stat);
+		// ft_putstr_fd(str, 2);
+		str = treat_dollar2(str, env);
+		// ft_putstr_fd(str, 2);
 		line = ft_strjoin(str, "\n");
 		free(str);
 		if (line)
@@ -68,9 +71,9 @@ int	ft_heredoc(t_tree **tree, t_exec *e, int i)
 	{
 		if (i == e->in)
 			heredoc_filler(((*tree)->pipe)[1], \
-			ft_strjoin((*tree)->str, "\n"), 129);
+			ft_strjoin((*tree)->str, "\n"), 129, *(e->env));
 		else
-			heredoc_filler(-1, ft_strjoin((*tree)->str, "\n"), 0);
+			heredoc_filler(-1, ft_strjoin((*tree)->str, "\n"), 0, *(e->env));
 	}
 	return (wait_heredoc(tree, e));
 }

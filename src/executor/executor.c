@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 11:53:57 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/11/08 15:50:01 by ralves-g         ###   ########.fr       */
+/*   Updated: 2024/03/22 19:19:32 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	execute_tree(t_tree **tree, char ***env)
 	int		count;
 	t_exec	e;
 
+	e.env = env;
 	i = 0;
 	if (execute_tree_utils(tree, &e, &i, &count))
 		return ;

@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 14:28:26 by ralves-g          #+#    #+#             */
-/*   Updated: 2022/10/07 20:08:22 by ralves-g         ###   ########.fr       */
+/*   Updated: 2024/03/22 19:16:37 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ char	*search_var(char *var, char **env)
 	i = 0;
 	while (env[i])
 	{
+		// ft_putstr_fd("comparing: ", 2);
+		// ft_putstr_fd(var,2);
+		// ft_putstr_fd(" to ", 2);
+		// ft_putstr_fd(env[i], 2);
+		// ft_putstr_fd("\n", 2);
 		if (!ft_strncmp(env[i], var, till_eq(env[i])) && !var[till_eq(env[i])])
 			break ;
 		i++;
@@ -49,6 +54,7 @@ char	*search_var(char *var, char **env)
 		free(var);
 	if (!env[i])
 		return (NULL);
+	// ft_putstr_fd("\n\nvar found!\n\n", 2);
 	return (ft_strdup(env[i] + len + 1));
 }
 

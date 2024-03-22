@@ -6,7 +6,7 @@
 /*   By: ralves-g <ralves-g@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/22 15:28:35 by pedro             #+#    #+#             */
-/*   Updated: 2022/10/21 11:52:15 by ralves-g         ###   ########.fr       */
+/*   Updated: 2024/02/06 15:16:11 by ralves-g         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	handle_signals_heredoc(int sig, siginfo_t *info, void *ucontext)
 	else if (sig == SIGINT)
 	{
 		ft_putstr_fd("\n", 1);
-		unlink(".heredoc_tmp");
 		exit(130);
 	}
 }
