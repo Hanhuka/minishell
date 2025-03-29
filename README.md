@@ -17,5 +17,17 @@ Our implementation features:
 
 Text input as well as the history are handled with the readline library. 
 Every command is given it's own process given that all of them should run parallel to each other 
-Since For execution the number of pipes is always checked 
+Before executing every command the number of pipes is always checked because in case there is only one, and it is a built-in, it must run in the main process so it can alter actually alter the shell (environment variables, exit, directory)
+The inputs are stored in a tree like so:
+      pipe
+     /    \
+   pipe   cmd2
+   /  \     |
+ cmd0 cmd1 ...
+  |     |
+ args  ...
+  |
+ redirs
+
+ 
 
